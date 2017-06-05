@@ -52,18 +52,6 @@ class PekerjaanController extends Controller {
 
         return Response()->json($data, 200);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      *
@@ -73,16 +61,12 @@ class PekerjaanController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $pen = Pekerjaan::find($id);
-
-        $data = $request->all();
-        $success = $pen->update($data);
-
-        if (!$success) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Gagal ubah data!'], 400);
+        if(Pekerjaan::ubah($request,$id))
+        {
+            return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'],200);
         }
 
-        return Response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'], 200);
+        return response()->json(['status' => 'false', 'pesan' => 'Gagal ubah data!'],400);
     }
     /**
      * Remove the specified resource from storage.

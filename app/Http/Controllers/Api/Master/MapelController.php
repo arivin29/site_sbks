@@ -73,16 +73,12 @@ class MapelController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $pen = Mapel::find($id);
-
-        $data = $request->all();
-        $success = $pen->update($data);
-
-        if (!$success) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Gagal ubah data!'], 400);
+        if(Mapel::ubah($request,$id))
+        {
+            return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'],200);
         }
 
-        return Response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'], 200);
+        return response()->json(['status' => 'false', 'pesan' => 'Gagal ubah data!'],400);
     }
     /**
      * Remove the specified resource from storage.
