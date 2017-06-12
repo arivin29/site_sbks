@@ -13,10 +13,14 @@ class MapelController extends Controller {
      *
      * @return void
      */
-    public function index()
+   public function index()
     {
-        $data = Mapel::paginate(10);
-        return Response()->json($data, 200);
+        return Mapel::all();
+    }
+
+    public function create()
+    {
+        //
     }
 
     /**

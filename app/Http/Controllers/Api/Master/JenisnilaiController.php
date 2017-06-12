@@ -15,8 +15,12 @@ class JenisnilaiController extends Controller {
      */
     public function index()
     {
-        $data = Jenisnilai::paginate(10);
-        return Response()->json($data, 200);
+        return Jenisnilai::all();
+    }
+
+    public function create()
+    {
+        //
     }
 
     /**

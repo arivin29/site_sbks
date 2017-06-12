@@ -15,10 +15,13 @@ class PendidikanController extends Controller {
      */
     public function index()
     {
-        $data = Pendidikan::paginate(10);
-        return Response()->json($data, 200);
+        return Pendidikan::all();
     }
 
+    public function create()
+    {
+        //
+    }
     /**
      * Store a newly created resource in storage.
      *

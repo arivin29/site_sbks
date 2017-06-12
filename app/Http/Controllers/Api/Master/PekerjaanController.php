@@ -15,8 +15,12 @@ class PekerjaanController extends Controller {
      */
     public function index()
     {
-        $data = Pekerjaan::paginate(10);
-        return Response()->json($data, 200);
+        return Pekerjaan::all();
+    }
+
+    public function create()
+    {
+        //
     }
 
     /**

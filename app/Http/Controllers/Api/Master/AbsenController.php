@@ -15,8 +15,12 @@ class AbsenController extends Controller {
      */
     public function index()
     {
-        $data = Absen::paginate(10);
-        return Response()->json($data, 200);
+        return Absen::all();
+    }
+
+    public function create()
+    {
+        //
     }
 
     /**
