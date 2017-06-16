@@ -1,0 +1,44 @@
+<?php
+namespace App\Models;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+/**
+ * Model item ads
+ */
+class Nilaipengaturan extends Model
+{
+  /**
+   * Table database
+   */
+  protected $table = 't_nilai_pengaturan';
+  /**
+   * The attributes that are mass assignable.
+   *
+   * @var array
+   */
+  protected $fillable = [
+    'id_guru_mk', 'kelas', 'batas_remedial', 'persentase', 'id_jenis_nilai', 'if_remedial',
+  ];
+
+  protected $primaryKey = 'id_pengaturan_nilai';
+
+  protected static function ubah(Request $request,$id)
+    {
+        $data = Nilaipengaturan::find($id);
+        $data->id_guru_mk = $request->input('id_guru_mk');
+        $data->kelas = $request->input('kelas');
+        $data->batas_remedial = $request->input('batas_remedial');
+        $data->persentase = $request->input('persentase');
+        $data->id_jenis_nilai = $request->input('id_jenis_nilai');
+        $data->if_remedial = $request->input('if_remedial');
+        
+        if($data->update())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+}
