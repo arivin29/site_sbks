@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Murid;
 use App\Models\Nilai;
 use Illuminate\Support\Facades\Route;
+use DB;
+use select;
 
 class MuridController extends Controller {
     /**
@@ -14,9 +16,12 @@ class MuridController extends Controller {
      *
      * @return void
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Murid::all();
+        $sql = "select * from t_murid order by id_murid desc";
+        $data =  DB::select($sql);
+
+        return $data;
     }
 
     public function create()
@@ -32,14 +37,11 @@ class MuridController extends Controller {
      */
     public function store(Request $request)
     {
-        $data = new Murid;
-        $success = Murid::create($request->all());
-
-        if(!$success) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
-        } else {
-            return Response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
+        if(Murid::Insert($request))
+        {
+            return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
+        return response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
     }
 
     /**
@@ -51,11 +53,7 @@ class MuridController extends Controller {
     public function show($id)
     {
         $data = Murid::find($id);
-        if (is_null($data)) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Tidak ada data ditemukan!'], 400);
-        }
-
-        return Response()->json($data, 200);
+        return Response()->json($data);
     }
 
     /**
@@ -66,7 +64,7 @@ class MuridController extends Controller {
      */
     public function edit($id)
     {
-        //
+        return Murid::find($id);
     }
 
     /**

@@ -22,18 +22,34 @@ class Pekerjaan extends Model
 
   protected $primaryKey = 'id_pekerjaan';
 
+  protected static function Insert($request)
+  {
+      $data = new Pekerjaan();
+      $data->pekerjaan = $request->input('pekerjaan');
+
+      if($data->save())
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+  }
+
   protected static function ubah(Request $request,$id)
   {
-        $data = Pekerjaan::find($id);
-        $data->pekerjaan = $request->input('pekerjaan');
+      $data = Pekerjaan::find($id);
+      $data->pekerjaan = $request->input('pekerjaan');
         
-        if($data->update())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+      if($data->update())
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+  }
+  
 }

@@ -22,24 +22,51 @@ class Absen extends Model
 
   protected $primaryKey = 'id_m_absen';
 
+  public function murid()
+  {
+    return $this->belongsTo('App\Models\Murid');
+  }
+
+  protected static function Insert($request)
+  {
+      $data = new Absen();
+      $data->id_murid = $request->input('id_murid');
+      $data->jam_masuk = $request->input('jam_masuk');
+      $data->jam_keluar = $request->input('jam_keluar');
+      $data->lama_disekolah = $request->input('lama_disekolah');
+      $data->toleransi_telat = $request->input('toleransi_telat');
+      $data->max_cuti = $request->input('max_cuti');
+      $data->max_izin = $request->input('max_izin');
+
+      if($data->save())
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+  }
+
   protected static function ubah(Request $request,$id)
-    {
-        $data = Absen::find($id);
-        $data->id_murid = $request->input('id_murid');
-        $data->jam_masuk = $request->input('jam_masuk');
-        $data->jam_keluar = $request->input('jam_keluar');
-        $data->lama_disekolah = $request->input('lama_disekolah');
-        $data->toleransi_telat = $request->input('toleransi_telat');
-        $data->max_cuti = $request->input('max_cuti');
-        $data->max_izin = $request->input('max_izin');
-        
-        if($data->update())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+  {
+      $data = Absen::find($id);
+      $data->id_murid = $request->input('id_murid');
+      $data->jam_masuk = $request->input('jam_masuk');
+      $data->jam_keluar = $request->input('jam_keluar');
+      $data->lama_disekolah = $request->input('lama_disekolah');
+      $data->toleransi_telat = $request->input('toleransi_telat');
+      $data->max_cuti = $request->input('max_cuti');
+      $data->max_izin = $request->input('max_izin');
+      
+      if($data->update())
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+  }
+
 }

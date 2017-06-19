@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Api\Guru;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Gurumk;
+use App\Models\Mapel;
+use App\Models\Guru;
 use Illuminate\Support\Facades\Route;
+use DB;
+use select;
 
 class GurumkController extends Controller {
     /**
@@ -15,7 +19,11 @@ class GurumkController extends Controller {
      */
     public function index()
     {
-        return Gurumk::all();
+        $sql = "select * from t_guru_mk,m_mata_pelajaran,t_guru where t_guru_mk.id_mata_pelajaran=m_mata_pelajaran.id_mata_pelajaran and t_guru_mk.id_guru=t_guru.id_guru order by id_guru_mk desc";
+        
+        $data =  DB::select($sql);
+
+        return $data;
     }
 
     public function create()
@@ -31,14 +39,11 @@ class GurumkController extends Controller {
      */
     public function store(Request $request)
     {
-        $data = new Gurumk;
-        $success = Gurumk::create($request->all());
-
-        if(!$success) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
-        } else {
-            return Response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
+        if(Gurumk::Insert($request))
+        {
+            return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
+        return response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
     }
 
     /**
@@ -65,7 +70,7 @@ class GurumkController extends Controller {
      */
     public function edit($id)
     {
-        //
+        return Gurumk::find($id);
     }
 
     /**

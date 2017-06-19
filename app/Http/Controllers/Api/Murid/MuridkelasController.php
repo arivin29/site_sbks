@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Api\Murid;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Muridkelas;
+use App\Models\Murid;
+use App\Models\Guru;
 use Illuminate\Support\Facades\Route;
+use DB;
+use select;
 
 class MuridkelasController extends Controller {
     /**
@@ -15,7 +19,11 @@ class MuridkelasController extends Controller {
      */
     public function index()
     {
-        return Muridkelas::all();
+        $sql = "select * from t_murid_kelas,t_murid,t_guru where t_murid_kelas.id_murid=t_murid.id_murid and t_murid_kelas.id_guru=t_guru.id_guru order by id_murid_kelas desc";
+        
+        $data =  DB::select($sql);
+
+        return $data;
     }
 
     public function create()
@@ -31,14 +39,11 @@ class MuridkelasController extends Controller {
      */
     public function store(Request $request)
     {
-        $data = new Muridkelas;
-        $success = Muridkelas::create($request->all());
-
-        if(!$success) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
-        } else {
-            return Response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
+        if(Muridkelas::Insert($request))
+        {
+            return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
+        return response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
     }
 
     /**
@@ -50,11 +55,7 @@ class MuridkelasController extends Controller {
     public function show($id)
     {
         $data = Muridkelas::find($id);
-        if (is_null($data)) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Tidak ada data ditemukan!'], 400);
-        }
-
-        return Response()->json($data, 200);
+        return Response()->json($data);
     }
 
     /**
@@ -65,7 +66,7 @@ class MuridkelasController extends Controller {
      */
     public function edit($id)
     {
-        //
+        return Muridkelas::find($id);
     }
 
     /**

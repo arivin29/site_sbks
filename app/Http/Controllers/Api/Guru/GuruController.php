@@ -31,14 +31,11 @@ class GuruController extends Controller {
      */
     public function store(Request $request)
     {
-        $data = new Guru;
-        $success = Guru::create($request->all());
-
-        if(!$success) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
-        } else {
-            return Response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
+        if(Guru::Insert($request))
+        {
+            return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
+        return response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
     }
 
     /**
@@ -50,11 +47,7 @@ class GuruController extends Controller {
     public function show($id)
     {
         $data = Guru::find($id);
-        if (is_null($data)) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Tidak ada data ditemukan!'], 400);
-        }
-
-        return Response()->json($data, 200);
+        return Response()->json($data);
     }
 
     /**
@@ -65,7 +58,7 @@ class GuruController extends Controller {
      */
     public function edit($id)
     {
-        //
+        return Guru::find($id);
     }
 
     /**

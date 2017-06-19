@@ -22,23 +22,44 @@ class Nilaipengaturan extends Model
 
   protected $primaryKey = 'id_pengaturan_nilai';
 
+  protected static function Insert($request)
+  {
+      $data = new Nilaipengaturan();
+      $data->id_guru_mk = $request->input('id_guru_mk');
+      $data->kelas = $request->input('kelas');
+      $data->batas_remedial = $request->input('batas_remedial');
+      $data->persentase = $request->input('persentase');
+      $data->id_jenis_nilai = $request->input('id_jenis_nilai');
+      $data->if_remedial = $request->input('if_remedial');
+
+      if($data->save())
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+  }
+
   protected static function ubah(Request $request,$id)
-    {
-        $data = Nilaipengaturan::find($id);
-        $data->id_guru_mk = $request->input('id_guru_mk');
-        $data->kelas = $request->input('kelas');
-        $data->batas_remedial = $request->input('batas_remedial');
-        $data->persentase = $request->input('persentase');
-        $data->id_jenis_nilai = $request->input('id_jenis_nilai');
-        $data->if_remedial = $request->input('if_remedial');
-        
-        if($data->update())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+  {
+      $data = Nilaipengaturan::find($id);
+      $data->id_guru_mk = $request->input('id_guru_mk');
+      $data->kelas = $request->input('kelas');
+      $data->batas_remedial = $request->input('batas_remedial');
+      $data->persentase = $request->input('persentase');
+      $data->id_jenis_nilai = $request->input('id_jenis_nilai');
+      $data->if_remedial = $request->input('if_remedial');
+      
+      if($data->update())
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+  }
+
 }

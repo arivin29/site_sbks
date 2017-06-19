@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Api\Master;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Absen;
+use App\Models\Murid;
 use Illuminate\Support\Facades\Route;
+use DB;
+use select;
+use table;
 
 class AbsenController extends Controller {
     /**
@@ -14,13 +18,20 @@ class AbsenController extends Controller {
      * @return void
      */
     public function index()
-    {
-        return Absen::all();
+    {   
+
+        $sql = "select * from m_absen,t_murid where m_absen.id_murid=t_murid.id_murid order by id_m_absen desc";
+        
+        $data =  DB::select($sql);
+
+        return $data;
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $data = DB::table('t_murid')->select('id_murid', 'nama_murid')->get();
+
+        return $data;
     }
 
     /**
@@ -31,14 +42,11 @@ class AbsenController extends Controller {
      */
     public function store(Request $request)
     {
-        $data = new Absen;
-        $success = Absen::create($request->all());
-
-        if(!$success) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
-        } else {
-            return Response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
+        if(Absen::Insert($request))
+        {
+            return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
+        return response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
     }
 
     /**
@@ -65,7 +73,7 @@ class AbsenController extends Controller {
      */
     public function edit($id)
     {
-        //
+        return Absen::find($id);
     }
 
     /**

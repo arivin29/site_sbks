@@ -22,18 +22,34 @@ class Absentmt extends Model
 
   protected $primaryKey = 'id_tidak_masuk_tanggal';
 
+  protected static function Insert($request)
+  {
+      $data = new Absentmt();
+      $data->tanggal_tidak_masuk = $request->input('tanggal_tidak_masuk');
+
+      if($data->save())
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+  }
+
   protected static function ubah(Request $request,$id)
   {
-        $data = Absentmt::find($id);
-        $data->tanggal_tidak_masuk = $request->input('tanggal_tidak_masuk');
-        
-        if($data->update())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+      $data = Absentmt::find($id);
+      $data->tanggal_tidak_masuk = $request->input('tanggal_tidak_masuk');
+      
+      if($data->update())
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+  }
+
 }

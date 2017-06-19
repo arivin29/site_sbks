@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Nilai;
 use App\Models\Murid;
+use App\Models\Jenisnilai;
 use Illuminate\Support\Facades\Route;
+use DB;
+use select;
 
 class NilaiController extends Controller {
     /**
@@ -17,7 +20,11 @@ class NilaiController extends Controller {
     public function index()
     {
 
-        return Nilai::all();
+        $sql = "select * from t_nilai,t_murid,m_jenis_nilai where t_nilai.id_murid=t_murid.id_murid and t_nilai.id_jenis_nilai=m_jenis_nilai.id_jenis_nilai order by id_nilai desc";
+        
+        $data =  DB::select($sql);
+
+        return $data;
     }
 
     public function create()
@@ -33,14 +40,11 @@ class NilaiController extends Controller {
      */
     public function store(Request $request)
     {
-        $data = new Nilai;
-        $success = Nilai::create($request->all());
-
-        if(!$success) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
-        } else {
-            return Response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
+        if(Nilai::Insert($request))
+        {
+            return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
+        return response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
     }
 
     /**
@@ -67,7 +71,7 @@ class NilaiController extends Controller {
      */
     public function edit($id)
     {
-        //
+        return Nilai::find($id);
     }
 
     /**

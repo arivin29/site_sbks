@@ -22,20 +22,38 @@ class Gurumk extends Model
 
   protected $primaryKey = 'id_guru_mk';
 
+  protected static function Insert($request)
+  {
+      $data = new Gurumk();
+      $data->id_mata_pelajaran = $request->input('id_mata_pelajaran');
+      $data->id_guru = $request->input('id_guru');
+      $data->jam_ngajar = $request->input('jam_ngajar');
+
+      if($data->save())
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+  }
+
   protected static function ubah(Request $request,$id)
-    {
-        $data = Gurumk::find($id);
-        $data->id_mata_pelajaran = $request->input('id_mata_pelajaran');
-        $data->id_guru = $request->input('id_guru');
-        $data->jam_ngajar = $request->input('jam_ngajar');
+  {
+      $data = Gurumk::find($id);
+      $data->id_mata_pelajaran = $request->input('id_mata_pelajaran');
+      $data->id_guru = $request->input('id_guru');
+      $data->jam_ngajar = $request->input('jam_ngajar');
         
-        if($data->update())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+      if($data->update())
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+  }
+
 }

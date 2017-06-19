@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Api\Buku;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Buku;
+use App\Models\Guru;
 use Illuminate\Support\Facades\Route;
+use DB;
+use select;
 
 class BukuController extends Controller {
     /**
@@ -15,7 +18,11 @@ class BukuController extends Controller {
      */
     public function index()
     {
-        return Buku::all();
+        $sql = "select * from t_buku,t_guru where t_buku.id_guru=t_guru.id_guru order by id_buku desc";
+        
+        $data =  DB::select($sql);
+
+        return $data;
     }
 
     public function create()
@@ -31,14 +38,11 @@ class BukuController extends Controller {
      */
     public function store(Request $request)
     {
-        $data = new Buku;
-        $success = Buku::create($request->all());
-
-        if(!$success) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
-        } else {
-            return Response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
+        if(Buku::Insert($request))
+        {
+            return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
+        return response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
     }
 
     /**
@@ -65,7 +69,7 @@ class BukuController extends Controller {
      */
     public function edit($id)
     {
-        //
+        return Buku::find($id);
     }
 
     /**

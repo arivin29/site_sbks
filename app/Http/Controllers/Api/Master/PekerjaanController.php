@@ -31,14 +31,11 @@ class PekerjaanController extends Controller {
      */
     public function store(Request $request)
     {
-        $data = new Pekerjaan;
-        $success = Pekerjaan::create($request->all());
-
-        if(!$success) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
-        } else {
-            return Response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
+        if(Pekerjaan::Insert($request))
+        {
+            return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
+        return response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
     }
 
     /**
@@ -56,6 +53,18 @@ class PekerjaanController extends Controller {
 
         return Response()->json($data, 200);
     }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        return Pekerjaan::find($id);
+    }
+
     /**
      * Update the specified resource in storage.
      *

@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Api\Absen;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Absentm;
+use App\Models\Murid;
 use Illuminate\Support\Facades\Route;
+use DB;
+use select;
 
 class AbsentmController extends Controller {
     /**
@@ -15,7 +18,11 @@ class AbsentmController extends Controller {
      */
     public function index()
     {
-        return Absentm::all();
+        $sql = "select * from t_absen_tidak_masuk,t_murid where t_absen_tidak_masuk.id_murid=t_murid.id_murid order by id_tidak_masuk desc";
+        
+        $data =  DB::select($sql);
+
+        return $data;
     }
 
     public function create()
@@ -31,14 +38,11 @@ class AbsentmController extends Controller {
      */
     public function store(Request $request)
     {
-        $data = new Absentm;
-        $success = Absentm::create($request->all());
-
-        if(!$success) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
-        } else {
-            return Response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
+        if(Absentm::Insert($request))
+        {
+            return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
+        return response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
     }
 
     /**
@@ -49,12 +53,7 @@ class AbsentmController extends Controller {
      */
     public function show($id)
     {
-        $data = Absentm::find($id);
-        if (is_null($data)) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Tidak ada data ditemukan!'], 400);
-        }
-
-        return Response()->json($data, 200);
+        return Absentm::find($id);
     }
 
     /**
@@ -65,7 +64,7 @@ class AbsentmController extends Controller {
      */
     public function edit($id)
     {
-        //
+        return Absentm::find($id);
     }
 
     /**

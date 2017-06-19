@@ -22,22 +22,42 @@ class Tabsen extends Model
 
   protected $primaryKey = 'id_absen';
 
+  protected static function Insert($request)
+  {
+      $data = new Tabsen();
+      $data->id_murid = $request->input('id_murid');
+      $data->tanggal_absen = $request->input('tanggal_upload');
+      $data->type_absen = $request->input('type_absen');
+      $data->tanggal_upload = $request->input('tanggal_upload');
+      $data->catatan = $request->input('catatan');
+
+      if($data->save())
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+  }
+
   protected static function ubah(Request $request,$id)
   {
-        $data = Tabsen::find($id);
-        $data->id_murid = $request->input('id_murid');
-        $data->tanggal_absen = $request->input('tanggal_absen');
-        $data->type_absen = $request->input('type_absen');
-        $data->tanggal_upload = $request->input('tanggal_upload');
-        $data->catatan = $request->input('catatan');
-        
-        if($data->update())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+      $data = Tabsen::find($id);
+      $data->id_murid = $request->input('id_murid');
+      $data->tanggal_absen = $request->input('tanggal_absen');
+      $data->type_absen = $request->input('type_absen');
+      $data->tanggal_upload = $request->input('tanggal_upload');
+      $data->catatan = $request->input('catatan');
+
+      if($data->update())
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+  }
+  
 }

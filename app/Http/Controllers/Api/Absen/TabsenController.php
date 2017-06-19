@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Api\Absen;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Tabsen;
+use App\Models\Murid;
 use Illuminate\Support\Facades\Route;
+use DB;
+use select;
 
 class TabsenController extends Controller {
     /**
@@ -15,7 +18,11 @@ class TabsenController extends Controller {
      */
     public function index()
     {
-        return Tabsen::all();
+        $sql = "select * from t_absen,t_murid where t_absen.id_murid=t_murid.id_murid order by id_absen desc";
+        
+        $data =  DB::select($sql);
+
+        return $data;
     }
 
     public function create()
@@ -31,14 +38,11 @@ class TabsenController extends Controller {
      */
     public function store(Request $request)
     {
-        $data = new Tabsen;
-        $success = Tabsen::create($request->all());
-
-        if(!$success) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
-        } else {
-            return Response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
+        if(Tabsen::Insert($request))
+        {
+            return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
+        return response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
     }
 
     /**
@@ -65,7 +69,7 @@ class TabsenController extends Controller {
      */
     public function edit($id)
     {
-        //
+        return Tabsen::find($id);
     }
 
     /**

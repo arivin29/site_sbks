@@ -22,18 +22,34 @@ class Jenisnilai extends Model
 
   protected $primaryKey = 'id_jenis_nilai';
 
+  protected static function Insert($request)
+  {
+      $data = new Jenisnilai();
+      $data->jenis = $request->input('jenis');
+
+      if($data->save())
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+  }
+
   protected static function ubah(Request $request,$id)
-    {
-        $data = Jenisnilai::find($id);
-        $data->jenis = $request->input('jenis');
+  {
+      $data = Jenisnilai::find($id);
+      $data->jenis = $request->input('jenis');
         
-        if($data->update())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+      if($data->update())
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+  }
+
 }

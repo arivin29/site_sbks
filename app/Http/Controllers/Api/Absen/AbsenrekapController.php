@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Api\Absen;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Absenrekap;
+use App\Models\Murid;
+use App\Models\Guru;
 use Illuminate\Support\Facades\Route;
+use DB;
+use select;
 
 class AbsenrekapController extends Controller {
     /**
@@ -13,9 +17,13 @@ class AbsenrekapController extends Controller {
      *
      * @return void
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Absenrekap::all();
+        $sql = "select * from t_absen_rekap,t_murid,t_guru where t_absen_rekap.id_murid=t_murid.id_murid and t_absen_rekap.id_guru=t_guru.id_guru order by id_rekap_absen desc";
+
+        $data =  DB::select($sql);
+
+        return $data;
     }
 
     public function create()
@@ -31,14 +39,11 @@ class AbsenrekapController extends Controller {
      */
     public function store(Request $request)
     {
-        $data = new Absenrekap;
-        $success = Absenrekap::create($request->all());
-
-        if(!$success) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
-        } else {
-            return Response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
+        if(Absenrekap::Insert($request))
+        {
+            return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
+        return response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
     }
 
     /**
@@ -65,7 +70,7 @@ class AbsenrekapController extends Controller {
      */
     public function edit($id)
     {
-        //
+        return Absenrekap::find($id);
     }
 
     /**

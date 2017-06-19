@@ -22,23 +22,44 @@ class Absentm extends Model
 
   protected $primaryKey = 'id_tidak_masuk';
 
+  protected static function Insert($request)
+  {
+      $data = new Absentm();
+      $data->type_tidak_masuk = $request->input('type_tidak_masuk');
+      $data->tanggal_surat = $request->input('tanggal_surat');
+      $data->id_murid = $request->input('id_murid');
+      $data->keterangan = $request->input('keterangan');
+      $data->nomor_surat = $request->input('nomor_surat');
+      $data->menyetujui = $request->input('menyetujui');
+
+      if($data->save())
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+  }
+
   protected static function ubah(Request $request,$id)
   {
-        $data = Absentm::find($id);
-        $data->type_tidak_masuk = $request->input('type_tidak_masuk');
-        $data->tanggal_surat = $request->input('tanggal_surat');
-        $data->id_murid = $request->input('id_murid');
-        $data->keterangan = $request->input('keterangan');
-        $data->nomor_surat = $request->input('nomor_surat');
-        $data->menyetujui = $request->input('menyetujui');
-        
-        if($data->update())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+      $data = Absentm::find($id);
+      $data->type_tidak_masuk = $request->input('type_tidak_masuk');
+      $data->tanggal_surat = $request->input('tanggal_surat');
+      $data->id_murid = $request->input('id_murid');
+      $data->keterangan = $request->input('keterangan');
+      $data->nomor_surat = $request->input('nomor_surat');
+      $data->menyetujui = $request->input('menyetujui');
+      
+      if($data->update())
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+  }
+
 }

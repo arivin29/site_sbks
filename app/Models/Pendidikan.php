@@ -23,21 +23,36 @@ class Pendidikan extends Model
 
   protected $primaryKey = 'id_pendidikan';
 
+  protected static function Insert($request)
+  {
+      $data = new Pendidikan();
+      $data->pendidikan = $request->input('pendidikan');
+      $data->level_pendidikan = $request->input('level_pendidikan');
 
-    protected static function ubah(Request $request,$id)
-    {
-        $data = Pendidikan::find($id);
-        $data->pendidikan = $request->input('pendidikan');
-        $data->level_pendidikan = $request->input('level_pendidikan');
-        
-        if($data->update())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+      if($data->save())
+      {
+          return true;
+      }
+      else
+      {
+          return false;
+      }
+  }
+
+  protected static function ubah(Request $request,$id)
+  {
+      $data = Pendidikan::find($id);
+      $data->pendidikan = $request->input('pendidikan');
+      $data->level_pendidikan = $request->input('level_pendidikan');
+
+      if($data->update())
+      {
+          return true;
+       }
+       else
+       {
+           return false;
+       }
+   }
 
 }
