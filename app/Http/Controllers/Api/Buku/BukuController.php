@@ -27,7 +27,9 @@ class BukuController extends Controller {
 
     public function create()
     {
-        //
+        $data ['guru'] = Guru::select('id_guru','nama_guru')->get();
+
+        return $data;
     }
 
     /**

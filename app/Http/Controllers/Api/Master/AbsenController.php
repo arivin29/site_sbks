@@ -29,7 +29,7 @@ class AbsenController extends Controller {
 
     public function create(Request $request)
     {
-        $data = DB::table('t_murid')->select('id_murid', 'nama_murid')->get();
+        $data ['murid'] = Murid::select('id_murid','nama_murid')->get();
 
         return $data;
     }

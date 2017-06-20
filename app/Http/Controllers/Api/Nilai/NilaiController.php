@@ -27,9 +27,12 @@ class NilaiController extends Controller {
         return $data;
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $data ['murid'] = Murid::select('id_murid','nama_murid')->get();
+        $data ['jn'] = Jenisnilai::select('id_jenis_nilai','jenis')->get();
+
+        return $data;
     }
 
     /**

@@ -28,7 +28,11 @@ class GurumkController extends Controller {
 
     public function create()
     {
-        //
+        $data ['mapel'] = Mapel::select('id_mata_pelajaran','mata_pelajaran')->get();
+        $data ['guru'] = Guru::select('id_guru','nama_guru')->get();
+    
+        return $data;
+
     }
 
     /**

@@ -27,7 +27,9 @@ class AbsentmController extends Controller {
 
     public function create()
     {
-        //
+        $data ['murid'] = Murid::select('id_murid','nama_murid')->get();
+
+        return $data;
     }
 
     /**

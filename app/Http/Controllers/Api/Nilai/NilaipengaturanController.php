@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Api\Nilai;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Nilaipengaturan;
+use App\Models\Jenisnilai;
 use Illuminate\Support\Facades\Route;
+use DB;
+use select;
 
 class NilaipengaturanController extends Controller {
     /**
@@ -15,12 +18,18 @@ class NilaipengaturanController extends Controller {
      */
     public function index()
     {
-        return Nilaipengaturan::all();
+        $sql = "select * from t_nilai_pengaturan,m_jenis_nilai where t_nilai_pengaturan.id_jenis_nilai=m_jenis_nilai.id_jenis_nilai order by id_pengaturan_nilai desc";
+        
+        $data =  DB::select($sql);
+
+        return $data;
     }
 
     public function create()
     {
-        //
+        $data ['jn'] = Jenisnilai::select('id_jenis_nilai','jenis')->get();
+
+        return $data;
     }
 
     /**

@@ -28,7 +28,10 @@ class MuridkelasController extends Controller {
 
     public function create()
     {
-        //
+        $data ['murid'] = Murid::select('id_murid','nama_murid')->get();
+        $data ['guru'] = Guru::select('id_guru','nama_guru')->get();
+
+        return $data;
     }
 
     /**
