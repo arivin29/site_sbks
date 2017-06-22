@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Murid;
 use App\Models\Nilai;
+use App\Models\Pendidikan;
+use App\Models\Pekerjaan;
 use Illuminate\Support\Facades\Route;
 use DB;
 use select;
@@ -18,15 +20,22 @@ class MuridController extends Controller {
      */
     public function index(Request $request)
     {
-        $sql = "select * from t_murid order by id_murid desc";
-        $data =  DB::select($sql);
-
-        return $data;
+        $input = $request->all();
+        if($request->get('search')){
+            $data = Murid::where("nama_murid", "LIKE", "%{$request->get('search')}%")
+                ->paginate(10);      
+        }else{
+          $data = Murid::paginate(10);
+        }
+        return response($data);
     }
 
     public function create()
     {
-        //
+        $data ['pendidikan'] = Pendidikan::select('id_pendidikan','pendidikan')->get();
+        $data ['pekerjaan'] = Pekerjaan::select('id_pekerjaan','pekerjaan')->get();
+
+        return $data;
     }
 
     /**

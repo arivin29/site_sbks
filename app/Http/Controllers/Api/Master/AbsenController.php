@@ -20,11 +20,11 @@ class AbsenController extends Controller {
     public function index()
     {   
 
-        $sql = "select * from m_absen,t_murid where m_absen.id_murid=t_murid.id_murid order by id_m_absen desc";
-        
-        $data =  DB::select($sql);
+        $sql = DB::table('m_absen')
+            ->join('t_murid', 'm_absen.id_murid', '=', 't_murid.id_murid')
+            ->select('m_absen.*', 't_murid.nama_murid')->paginate(10);
 
-        return $data;
+        return $sql;
     }
 
     public function create(Request $request)

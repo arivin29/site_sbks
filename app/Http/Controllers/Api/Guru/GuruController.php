@@ -13,9 +13,16 @@ class GuruController extends Controller {
      *
      * @return void
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Guru::all();
+        $input = $request->all();
+        if($request->get('search')){
+            $data = Guru::where("nama_murid", "LIKE", "%{$request->get('search')}%")
+                ->paginate(10);      
+        }else{
+          $data = Guru::paginate(10);
+        }
+        return response($data);
     }
 
     public function create()

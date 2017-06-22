@@ -18,11 +18,11 @@ class BukuController extends Controller {
      */
     public function index()
     {
-        $sql = "select * from t_buku,t_guru where t_buku.id_guru=t_guru.id_guru order by id_buku desc";
-        
-        $data =  DB::select($sql);
+        $sql = DB::table('t_buku')
+            ->join('t_guru', 't_buku.id_guru', '=', 't_guru.id_guru')
+            ->select('t_buku.*', 't_guru.nama_guru')->paginate(10);
 
-        return $data;
+        return $sql;
     }
 
     public function create()

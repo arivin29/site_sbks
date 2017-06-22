@@ -18,11 +18,11 @@ class TabsenController extends Controller {
      */
     public function index()
     {
-        $sql = "select * from t_absen,t_murid where t_absen.id_murid=t_murid.id_murid order by id_absen desc";
-        
-        $data =  DB::select($sql);
+        $sql = DB::table('t_absen')
+            ->join('t_murid', 't_absen.id_murid', '=', 't_murid.id_murid')
+            ->select('t_absen.*', 't_murid.nama_murid')->paginate(10);
 
-        return $data;
+        return $sql;
     }
 
     public function create()

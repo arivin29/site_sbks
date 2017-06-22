@@ -19,12 +19,13 @@ class NilaiController extends Controller {
      */
     public function index()
     {
+        $sql = DB::table('t_nilai')
+            ->join('t_murid', 't_nilai.id_murid', '=', 't_murid.id_murid')
+            ->join('m_jenis_nilai', 't_nilai.id_jenis_nilai', '=', 'm_jenis_nilai.id_jenis_nilai')
+            ->select('t_nilai.*', 't_murid.nama_murid', 'm_jenis_nilai.jenis')->paginate(10);
 
-        $sql = "select * from t_nilai,t_murid,m_jenis_nilai where t_nilai.id_murid=t_murid.id_murid and t_nilai.id_jenis_nilai=m_jenis_nilai.id_jenis_nilai order by id_nilai desc";
-        
-        $data =  DB::select($sql);
+        return $sql;
 
-        return $data;
     }
 
     public function create(Request $request)

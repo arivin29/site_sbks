@@ -18,11 +18,11 @@ class NilaipengaturanController extends Controller {
      */
     public function index()
     {
-        $sql = "select * from t_nilai_pengaturan,m_jenis_nilai where t_nilai_pengaturan.id_jenis_nilai=m_jenis_nilai.id_jenis_nilai order by id_pengaturan_nilai desc";
-        
-        $data =  DB::select($sql);
+        $sql = DB::table('t_nilai_pengaturan')
+            ->join('m_jenis_nilai', 't_nilai_pengaturan.id_jenis_nilai', '=', 'm_jenis_nilai.id_jenis_nilai')
+            ->select('t_nilai_pengaturan.*', 'm_jenis_nilai.jenis')->paginate(10);
 
-        return $data;
+        return $sql;
     }
 
     public function create()

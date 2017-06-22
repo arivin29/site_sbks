@@ -19,11 +19,13 @@ class MuridkelasController extends Controller {
      */
     public function index()
     {
-        $sql = "select * from t_murid_kelas,t_murid,t_guru where t_murid_kelas.id_murid=t_murid.id_murid and t_murid_kelas.id_guru=t_guru.id_guru order by id_murid_kelas desc";
-        
-        $data =  DB::select($sql);
+        $sql = DB::table('t_murid_kelas')
+            ->join('t_murid', 't_murid_kelas.id_murid', '=', 't_murid.id_murid')
+            ->join('t_guru', 't_murid_kelas.id_guru', '=', 't_guru.id_guru')
+            ->select('t_murid_kelas.*', 't_murid.nama_murid', 't_guru.nama_guru')->paginate(10);
 
-        return $data;
+        return $sql;
+
     }
 
     public function create()
