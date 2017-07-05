@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Absentmt;
 use Illuminate\Support\Facades\Route;
-
+use DB;
+use select;
 class AbsentmtController extends Controller {
     /**
      * Create a new auth instance.
@@ -15,7 +16,10 @@ class AbsentmtController extends Controller {
      */
     public function index()
     {
-        return Absentmt::all();
+        $sql = DB::table('t_absen_tidak_masuk_tanggal')
+            ->select('t_absen_tidak_masuk_tanggal.*')->paginate(10);
+
+        return $sql;
     }
 
     public function create()

@@ -18,14 +18,18 @@ class GurumkController extends Controller {
      * @return void
      */
     public function index()
-    {
-        $sql = DB::table('t_guru_mk')
+    {   
+        $sql = "select * from t_guru_mk,m_mata_pelajaran,t_guru where t_guru_mk.id_mata_pelajaran=m_mata_pelajaran.id_mata_pelajaran and t_guru_mk.id_guru=t_guru.id_guru";
+        $data =  DB::select($sql);
+        return $data;
+
+/*        $sql = DB::table('t_guru_mk')
             ->join('m_mata_pelajaran', 't_guru_mk.id_mata_pelajaran', '=', 'm_mata_pelajaran.id_mata_pelajaran')
             ->join('t_guru', 't_guru_mk.id_guru', '=', 't_guru.id_guru')
             ->select('t_guru_mk.*', 'm_mata_pelajaran.mata_pelajaran', 't_guru.nama_guru')->paginate(10);
 
         return $sql;
-
+*/
     }
 
     public function create()

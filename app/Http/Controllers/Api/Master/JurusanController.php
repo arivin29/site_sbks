@@ -4,30 +4,27 @@ namespace App\Http\Controllers\Api\Master;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Mapel;
 use App\Models\Jurusan;
 use Illuminate\Support\Facades\Route;
 use DB;
 use select;
 
-class MapelController extends Controller {
+class JurusanController extends Controller {
     /**
      * Create a new auth instance.
      *
      * @return void
      */
-   public function index()
-    {
-        $sql = "select * from m_mata_pelajaran,m_jurusan where m_mata_pelajaran.id_jurusan=m_jurusan.id_jurusan";
+    public function index()
+    {   
+        $sql = "select * from m_jurusan";
         $data =  DB::select($sql);
-        return $data;
+        return $data; 
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        $data ['jurusan'] = Jurusan::select('id_jurusan','jurusan')->get();
-
-        return $data;
+        //
     }
 
     /**
@@ -38,7 +35,7 @@ class MapelController extends Controller {
      */
     public function store(Request $request)
     {
-        if(Mapel::Insert($request))
+        if(Jurusan::Insert($request))
         {
             return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
@@ -53,7 +50,7 @@ class MapelController extends Controller {
      */
     public function show($id)
     {
-        $data = Mapel::find($id);
+        $data = Jurusan::find($id);
         if (is_null($data)) {
             return Response()->json(['status' => 'false', 'pesan' => 'Tidak ada data ditemukan!'], 400);
         }
@@ -69,7 +66,7 @@ class MapelController extends Controller {
      */
     public function edit($id)
     {
-        return Mapel::find($id);
+        return Jurusan::find($id);
     }
 
     /**
@@ -81,7 +78,7 @@ class MapelController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        if(Mapel::ubah($request,$id))
+        if(Jurusan::ubah($request,$id))
         {
             return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'],200);
         }
@@ -96,7 +93,7 @@ class MapelController extends Controller {
      */
     public function destroy($id)
     {
-        $data = Mapel::find($id);
+        $data = Jurusan::find($id);
 
         $success=$data->delete();
 

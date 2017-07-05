@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Jenisnilai;
 use Illuminate\Support\Facades\Route;
+use DB;
+use select;
 
 class JenisnilaiController extends Controller {
     /**
@@ -15,7 +17,10 @@ class JenisnilaiController extends Controller {
      */
     public function index()
     {
-        return Jenisnilai::all();
+        $sql = DB::table('m_jenis_nilai')
+            ->select('m_jenis_nilai.*')->paginate(10);
+
+        return $sql;
     }
 
     public function create()

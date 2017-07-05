@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Pekerjaan;
 use Illuminate\Support\Facades\Route;
-
+use DB;
+use select;
 class PekerjaanController extends Controller {
     /**
      * Create a new auth instance.
@@ -15,7 +16,10 @@ class PekerjaanController extends Controller {
      */
     public function index()
     {
-        return Pekerjaan::all();
+        $sql = DB::table('m_pekerjaan')
+            ->select('m_pekerjaan.*')->paginate(10);
+
+        return $sql;
     }
 
     public function create()

@@ -20,14 +20,10 @@ class MuridController extends Controller {
      */
     public function index(Request $request)
     {
-        $input = $request->all();
-        if($request->get('search')){
-            $data = Murid::where("nama_murid", "LIKE", "%{$request->get('search')}%")
-                ->paginate(10);      
-        }else{
-          $data = Murid::paginate(10);
-        }
-        return response($data);
+//        $sql = DB::table('t_murid')
+//            ->select('t_murid.*', 't_murid.nama_murid')->paginate(5);
+        return Murid::all();
+//        return $sql;
     }
 
     public function create()

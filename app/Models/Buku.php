@@ -17,7 +17,7 @@ class Buku extends Model
    * @var array
    */
   protected $fillable = [
-    'tingkat', 'jurusan', 'kelas_paralel', 'id_guru', 'judul', 'keterangan', 'nama_file', 'keyword', 'lokasi_file'
+    'tingkat', 'id_jurusan', 'kelas_paralel', 'id_guru', 'judul', 'keterangan', 'nama_file', 'keyword', 'lokasi_file'
   ];
 
   protected $primaryKey = 'id_buku';
@@ -26,7 +26,7 @@ class Buku extends Model
   {
       $data = new Buku();
       $data->tingkat = $request->input('tingkat');
-      $data->jurusan = $request->input('jurusan');
+      $data->id_jurusan = $request->input('id_jurusan');
       $data->kelas_paralel = $request->input('kelas_paralel');
       $data->id_guru = $request->input('id_guru');
       $data->judul = $request->input('judul');
@@ -49,7 +49,7 @@ class Buku extends Model
   {
       $data = Buku::find($id);
       $data->tingkat = $request->input('tingkat');
-      $data->jurusan = $request->input('jurusan');
+      $data->id_jurusan = $request->input('id_jurusan');
       $data->kelas_paralel = $request->input('kelas_paralel');
       $data->id_guru = $request->input('id_guru');
       $data->judul = $request->input('judul');

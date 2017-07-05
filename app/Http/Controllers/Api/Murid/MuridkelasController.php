@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Muridkelas;
 use App\Models\Murid;
 use App\Models\Guru;
+use App\Models\Jurusan;
 use Illuminate\Support\Facades\Route;
 use DB;
 use select;
@@ -18,20 +19,25 @@ class MuridkelasController extends Controller {
      * @return void
      */
     public function index()
-    {
-        $sql = DB::table('t_murid_kelas')
+    {   
+        $sql = "select * from t_murid_kelas,t_murid,t_guru,m_jurusan where t_murid_kelas.id_murid=t_murid.id_murid and t_murid_kelas.id_guru=t_guru.id_guru and t_murid_kelas.id_jurusan=m_jurusan.id_jurusan";
+        $data =  DB::select($sql);
+        return $data;
+
+/*        $sql = DB::table('t_murid_kelas')
             ->join('t_murid', 't_murid_kelas.id_murid', '=', 't_murid.id_murid')
             ->join('t_guru', 't_murid_kelas.id_guru', '=', 't_guru.id_guru')
             ->select('t_murid_kelas.*', 't_murid.nama_murid', 't_guru.nama_guru')->paginate(10);
 
         return $sql;
-
+*/
     }
 
     public function create()
     {
         $data ['murid'] = Murid::select('id_murid','nama_murid')->get();
         $data ['guru'] = Guru::select('id_guru','nama_guru')->get();
+        $data ['jurusan'] = Jurusan::select('id_jurusan','jurusan')->get();
 
         return $data;
     }

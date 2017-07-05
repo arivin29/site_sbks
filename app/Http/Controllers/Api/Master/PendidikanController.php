@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Pendidikan;
 use Illuminate\Support\Facades\Route;
+use DB;
+use select;
 
 class PendidikanController extends Controller {
     /**
@@ -15,7 +17,10 @@ class PendidikanController extends Controller {
      */
     public function index()
     {
-        return Pendidikan::all();
+        $sql = DB::table('m_pendidikan')
+            ->select('m_pendidikan.*')->paginate(10);
+
+        return $sql;
     }
 
     public function create()

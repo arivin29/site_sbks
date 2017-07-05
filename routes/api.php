@@ -15,6 +15,7 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Master', 'prefix' => 'v
 	Route::resource('/mapel', 'MapelController');
 	Route::resource('/jn', 'JenisnilaiController');
 	Route::resource('/absen', 'AbsenController');
+	Route::resource('/jurusan', 'JurusanController');
 	
 });
 

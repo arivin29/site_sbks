@@ -9,7 +9,6 @@ use App\Models\Murid;
 use Illuminate\Support\Facades\Route;
 use DB;
 use select;
-use table;
 
 class AbsenController extends Controller {
     /**
@@ -19,12 +18,16 @@ class AbsenController extends Controller {
      */
     public function index()
     {   
+        $sql = "select * from m_absen,t_murid where m_absen.id_murid=t_murid.id_murid";
+        $data =  DB::select($sql);
+        return $data;
 
-        $sql = DB::table('m_absen')
+/*        $sql = DB::table('m_absen')
             ->join('t_murid', 'm_absen.id_murid', '=', 't_murid.id_murid')
             ->select('m_absen.*', 't_murid.nama_murid')->paginate(10);
 
         return $sql;
+*/        
     }
 
     public function create(Request $request)

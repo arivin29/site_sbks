@@ -18,11 +18,10 @@ class AbsentmController extends Controller {
      */
     public function index()
     {
-        $sql = DB::table('t_absen_tidak_masuk')
-            ->join('t_murid', 't_absen_tidak_masuk.id_murid', '=', 't_murid.id_murid')
-            ->select('t_absen_tidak_masuk.*', 't_murid.nama_murid')->paginate(10);
+        $sql = "select * from t_absen_tidak_masuk,t_murid where t_absen_tidak_masuk.id_murid=t_murid.id_murid";
+        $data =  DB::select($sql);
+        return $data;
 
-        return $sql;
     }
 
     public function create()
