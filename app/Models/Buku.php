@@ -19,7 +19,8 @@ class Buku extends Model
   protected $fillable = [
     'tingkat', 'id_jurusan', 'kelas_paralel', 'id_guru', 'judul', 'keterangan', 'nama_file', 'keyword', 'lokasi_file'
   ];
-
+  
+  public $timestamps = false;
   protected $primaryKey = 'id_buku';
 
   protected static function Insert($request)

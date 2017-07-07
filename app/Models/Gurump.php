@@ -5,29 +5,29 @@ use Illuminate\Http\Request;
 /**
  * Model item ads
  */
-class Pekerjaan extends Model
+class Gurump extends Model
 {
   /**
    * Table database
    */
-  protected $table = 'm_pekerjaan';
+  protected $table = 't_guru_mp';
   /**
    * The attributes that are mass assignable.
    *
    * @var array
    */
   protected $fillable = [
-    'pekerjaan',
+    'id_mata_pelajaran', 'id_guru', 'jam_ngajar',
   ];
 
-  public $timestamps = false;
-  
-  protected $primaryKey = 'id_pekerjaan';
+  protected $primaryKey = 'id_guru_mp';
 
   protected static function Insert($request)
   {
-      $data = new Pekerjaan();
-      $data->pekerjaan = $request->input('pekerjaan');
+      $data = new Gurump();
+      $data->id_mata_pelajaran = $request->input('id_mata_pelajaran');
+      $data->id_guru = $request->input('id_guru');
+      $data->jam_ngajar = $request->input('jam_ngajar');
 
       if($data->save())
       {
@@ -41,8 +41,10 @@ class Pekerjaan extends Model
 
   protected static function ubah(Request $request,$id)
   {
-      $data = Pekerjaan::find($id);
-      $data->pekerjaan = $request->input('pekerjaan');
+      $data = Gurump::find($id);
+      $data->id_mata_pelajaran = $request->input('id_mata_pelajaran');
+      $data->id_guru = $request->input('id_guru');
+      $data->jam_ngajar = $request->input('jam_ngajar');
         
       if($data->update())
       {
@@ -53,5 +55,5 @@ class Pekerjaan extends Model
           return false;
       }
   }
-  
+
 }

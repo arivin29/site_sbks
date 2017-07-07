@@ -22,11 +22,6 @@ class Absen extends Model
 
   protected $primaryKey = 'id_m_absen';
 
-  public function murid()
-  {
-    return $this->belongsTo('App\Models\Murid');
-  }
-
   protected static function Insert($request)
   {
       $data = new Absen();

@@ -20,6 +20,7 @@ class Absentmt extends Model
     'tanggal_tidak_masuk',
   ];
 
+  public $timestamps = false;
   protected $primaryKey = 'id_tidak_masuk_tanggal';
 
   protected static function Insert($request)

@@ -21,6 +21,7 @@ class Pendidikan extends Model
     'pendidikan', 'level_pendidikan'
   ];
 
+  public $timestamps = false;
   protected $primaryKey = 'id_pendidikan';
 
   protected static function Insert($request)

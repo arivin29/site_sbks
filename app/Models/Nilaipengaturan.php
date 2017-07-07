@@ -17,15 +17,16 @@ class Nilaipengaturan extends Model
    * @var array
    */
   protected $fillable = [
-    'id_guru_mk', 'kelas', 'batas_remedial', 'persentase', 'id_jenis_nilai', 'if_remedial',
+    'id_guru_mp', 'kelas', 'batas_remedial', 'persentase', 'id_jenis_nilai', 'if_remedial',
   ];
 
+  public $timestamps = false;
   protected $primaryKey = 'id_pengaturan_nilai';
 
   protected static function Insert($request)
   {
       $data = new Nilaipengaturan();
-      $data->id_guru_mk = $request->input('id_guru_mk');
+      $data->id_guru_mp = $request->input('id_guru_mp');
       $data->kelas = $request->input('kelas');
       $data->batas_remedial = $request->input('batas_remedial');
       $data->persentase = $request->input('persentase');
@@ -45,7 +46,7 @@ class Nilaipengaturan extends Model
   protected static function ubah(Request $request,$id)
   {
       $data = Nilaipengaturan::find($id);
-      $data->id_guru_mk = $request->input('id_guru_mk');
+      $data->id_guru_mp = $request->input('id_guru_mp');
       $data->kelas = $request->input('kelas');
       $data->batas_remedial = $request->input('batas_remedial');
       $data->persentase = $request->input('persentase');

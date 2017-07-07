@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Guru;
 use Illuminate\Support\Facades\Route;
-
+use DB;
+use select;
 class GuruController extends Controller {
     /**
      * Create a new auth instance.
@@ -15,7 +16,11 @@ class GuruController extends Controller {
      */
     public function index(Request $request)
     {
-       return Guru::all();
+       $sql = "select * from t_guru order by id_guru asc";
+
+        $data =  DB::select($sql);
+
+        return $data;
     }
 
     public function create()

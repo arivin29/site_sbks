@@ -16,6 +16,7 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Master', 'prefix' => 'v
 	Route::resource('/jn', 'JenisnilaiController');
 	Route::resource('/absen', 'AbsenController');
 	Route::resource('/jurusan', 'JurusanController');
+	Route::resource('/kelas', 'KelasController');
 	
 });
 
@@ -40,7 +41,7 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Buku', 'prefix' => 'v1/
 Route::group(['middleware' => ['api'], 'namespace'=>'Api\Guru', 'prefix' => 'v1/master'], function () {
 
 	Route::resource('/guru', 'GuruController');
-	Route::resource('/gurumk', 'GurumkController');
+	Route::resource('/gurump', 'GurumpController');
 	
 });
 

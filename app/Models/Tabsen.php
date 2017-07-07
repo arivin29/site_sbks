@@ -20,6 +20,7 @@ class Tabsen extends Model
     'id_murid', 'tanggal_absen', 'type_absen', 'tanggal_upload', 'catatan',
   ];
 
+  public $timestamps = false;
   protected $primaryKey = 'id_absen';
 
   protected static function Insert($request)

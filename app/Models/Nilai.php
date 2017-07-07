@@ -17,7 +17,7 @@ class Nilai extends Model
    * @var array
    */
   protected $fillable = [
-    'id_guru_mk', 'id_jenis_nilai', 'id_murid', 'nilai', 'is_remedial', 'id_user', 'rumus', 'nilai_akhir','smt',
+    'id_guru_mp', 'id_jenis_nilai', 'id_murid', 'nilai', 'is_remedial', 'id_user', 'rumus', 'nilai_akhir','smt',
   ];
 
   protected $primaryKey = 'id_nilai';
@@ -25,7 +25,7 @@ class Nilai extends Model
   protected static function Insert($request)
   {
       $data = new Nilai();
-      $data->id_guru_mk = $request->input('id_guru_mk');
+      $data->id_guru_mp = $request->input('id_guru_mp');
       $data->id_jenis_nilai = $request->input('id_jenis_nilai');
       $data->id_murid = $request->input('id_murid');
       $data->nilai = $request->input('nilai');
@@ -48,7 +48,7 @@ class Nilai extends Model
   protected static function ubah(Request $request,$id)
   {
       $data = Nilai::find($id);
-      $data->id_guru_mk = $request->input('id_guru_mk');
+      $data->id_guru_mp = $request->input('id_guru_mp');
       $data->id_jenis_nilai = $request->input('id_jenis_nilai');
       $data->id_murid = $request->input('id_murid');
       $data->nilai = $request->input('nilai');
