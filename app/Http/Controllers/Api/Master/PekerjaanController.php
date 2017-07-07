@@ -17,7 +17,7 @@ class PekerjaanController extends Controller {
     public function index()
     {
         $sql = DB::table('m_pekerjaan')
-            ->select('m_pekerjaan.*')->paginate(10);
+            ->select('m_pekerjaan.*')->orderBy('pekerjaan', 'asc')->paginate(10);
 
         return $sql;
     }

@@ -17,9 +17,10 @@ class Mapel extends Model
    * @var array
    */
   protected $fillable = [
-    'mata_pelajaran', 'tingkat', 'id_jurusan', 'jurusan', 'kelas_paralel', 'status_mata_pelajaran'
+    'mata_pelajaran', 'tingkat', 'id_jurusan', 'kelas_paralel', 'status_mata_pelajaran'
   ];
 
+  public $timestamps = false;
   protected $primaryKey = 'id_mata_pelajaran';
 
   protected static function Insert($request)
@@ -28,7 +29,6 @@ class Mapel extends Model
       $data->mata_pelajaran = $request->input('mata_pelajaran');
       $data->tingkat = $request->input('tingkat');
       $data->id_jurusan = $request->input('id_jurusan');
-      $data->jurusan = $request->input('jurusan');
       $data->kelas_paralel = $request->input('kelas_paralel');
       $data->status_mata_pelajaran = $request->input('status_mata_pelajaran');
 
@@ -48,7 +48,6 @@ class Mapel extends Model
       $data->mata_pelajaran = $request->input('mata_pelajaran');
       $data->tingkat = $request->input('tingkat');
       $data->id_jurusan = $request->input('id_jurusan');
-      $data->jurusan = $request->input('jurusan');
       $data->kelas_paralel = $request->input('kelas_paralel');
       $data->status_mata_pelajaran = $request->input('status_mata_pelajaran');
         

@@ -19,7 +19,8 @@ class Jurusan extends Model
   protected $fillable = [
     'jurusan',
   ];
-
+  
+  public $timestamps = false;
   protected $primaryKey = 'id_jurusan';
 
   protected static function Insert($request)

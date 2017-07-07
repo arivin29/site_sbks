@@ -19,7 +19,7 @@ class Jenisnilai extends Model
   protected $fillable = [
     'jenis',
   ];
-
+  public $timestamps = false;
   protected $primaryKey = 'id_jenis_nilai';
 
   protected static function Insert($request)

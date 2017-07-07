@@ -20,10 +20,11 @@ class MuridController extends Controller {
      */
     public function index(Request $request)
     {
-//        $sql = DB::table('t_murid')
-//            ->select('t_murid.*', 't_murid.nama_murid')->paginate(5);
-        return Murid::all();
-//        return $sql;
+        $sql = "select * from t_murid order by nama_murid asc";
+
+        $data =  DB::select($sql);
+
+        return $data;
     }
 
     public function create()

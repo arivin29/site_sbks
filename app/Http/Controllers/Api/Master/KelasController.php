@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Api\Guru;
+namespace App\Http\Controllers\Api\Master;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Gurumk;
-use App\Models\Mapel;
-use App\Models\Guru;
+use App\Models\Kelas;
 use Illuminate\Support\Facades\Route;
 use DB;
 use select;
 
-class GurumkController extends Controller {
+class KelasController extends Controller {
     /**
      * Create a new auth instance.
      *
@@ -19,26 +17,14 @@ class GurumkController extends Controller {
      */
     public function index()
     {   
-        $sql = "select * from t_guru_mk,m_mata_pelajaran,t_guru where t_guru_mk.id_mata_pelajaran=m_mata_pelajaran.id_mata_pelajaran and t_guru_mk.id_guru=t_guru.id_guru";
+        $sql = "select * from m_kelas order by id_kelas asc";
         $data =  DB::select($sql);
-        return $data;
-
-/*        $sql = DB::table('t_guru_mk')
-            ->join('m_mata_pelajaran', 't_guru_mk.id_mata_pelajaran', '=', 'm_mata_pelajaran.id_mata_pelajaran')
-            ->join('t_guru', 't_guru_mk.id_guru', '=', 't_guru.id_guru')
-            ->select('t_guru_mk.*', 'm_mata_pelajaran.mata_pelajaran', 't_guru.nama_guru')->paginate(10);
-
-        return $sql;
-*/
+        return $data; 
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        $data ['mapel'] = Mapel::select('id_mata_pelajaran','mata_pelajaran')->get();
-        $data ['guru'] = Guru::select('id_guru','nama_guru')->get();
-    
-        return $data;
-
+        //
     }
 
     /**
@@ -49,7 +35,7 @@ class GurumkController extends Controller {
      */
     public function store(Request $request)
     {
-        if(Gurumk::Insert($request))
+        if(Kelas::Insert($request))
         {
             return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
@@ -64,7 +50,7 @@ class GurumkController extends Controller {
      */
     public function show($id)
     {
-        $data = Gurumk::find($id);
+        $data = Kelas::find($id);
         if (is_null($data)) {
             return Response()->json(['status' => 'false', 'pesan' => 'Tidak ada data ditemukan!'], 400);
         }
@@ -80,7 +66,7 @@ class GurumkController extends Controller {
      */
     public function edit($id)
     {
-        return Gurumk::find($id);
+        return Kelas::find($id);
     }
 
     /**
@@ -92,7 +78,7 @@ class GurumkController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        if(Gurumk::ubah($request,$id))
+        if(Kelas::ubah($request,$id))
         {
             return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'],200);
         }
@@ -107,7 +93,7 @@ class GurumkController extends Controller {
      */
     public function destroy($id)
     {
-        $data = Gurumk::find($id);
+        $data = Kelas::find($id);
 
         $success=$data->delete();
 

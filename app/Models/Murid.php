@@ -22,11 +22,6 @@ class Murid extends Model
 
   protected $primaryKey = 'id_murid';
 
-  public function absen()
-  {
-      return $this->hasMany('App\Models\Absen','id_murid','id_murid');
-  }
-
   protected static function Insert($request)
   {
       $data = new Murid();

@@ -18,7 +18,7 @@ class PendidikanController extends Controller {
     public function index()
     {
         $sql = DB::table('m_pendidikan')
-            ->select('m_pendidikan.*')->paginate(10);
+            ->select('m_pendidikan.*')->orderBy('id_pendidikan', 'asc')->paginate(10);
 
         return $sql;
     }

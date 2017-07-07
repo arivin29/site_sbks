@@ -5,29 +5,28 @@ use Illuminate\Http\Request;
 /**
  * Model item ads
  */
-class Gurumk extends Model
+class Kelas extends Model
 {
   /**
    * Table database
    */
-  protected $table = 't_guru_mk';
+  protected $table = 'm_kelas';
   /**
    * The attributes that are mass assignable.
    *
    * @var array
    */
   protected $fillable = [
-    'id_mata_pelajaran', 'id_guru', 'jam_ngajar',
+    'kelas',
   ];
-
-  protected $primaryKey = 'id_guru_mk';
+  
+  public $timestamps = false;
+  protected $primaryKey = 'id_kelas';
 
   protected static function Insert($request)
   {
-      $data = new Gurumk();
-      $data->id_mata_pelajaran = $request->input('id_mata_pelajaran');
-      $data->id_guru = $request->input('id_guru');
-      $data->jam_ngajar = $request->input('jam_ngajar');
+      $data = new Kelas();
+      $data->kelas = $request->input('kelas');
 
       if($data->save())
       {
@@ -41,10 +40,8 @@ class Gurumk extends Model
 
   protected static function ubah(Request $request,$id)
   {
-      $data = Gurumk::find($id);
-      $data->id_mata_pelajaran = $request->input('id_mata_pelajaran');
-      $data->id_guru = $request->input('id_guru');
-      $data->jam_ngajar = $request->input('jam_ngajar');
+      $data = Kelas::find($id);
+      $data->kelas = $request->input('kelas');
         
       if($data->update())
       {
@@ -55,5 +52,5 @@ class Gurumk extends Model
           return false;
       }
   }
-
+  
 }

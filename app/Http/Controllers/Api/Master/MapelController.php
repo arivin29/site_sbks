@@ -18,7 +18,7 @@ class MapelController extends Controller {
      */
    public function index()
     {
-        $sql = "select * from m_mata_pelajaran,m_jurusan where m_mata_pelajaran.id_jurusan=m_jurusan.id_jurusan";
+        $sql = "select * from m_mata_pelajaran,m_jurusan where m_mata_pelajaran.id_jurusan=m_jurusan.id_jurusan order by mata_pelajaran asc";
         $data =  DB::select($sql);
         return $data;
     }

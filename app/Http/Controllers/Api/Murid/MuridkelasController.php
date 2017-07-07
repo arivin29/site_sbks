@@ -20,7 +20,7 @@ class MuridkelasController extends Controller {
      */
     public function index()
     {   
-        $sql = "select * from t_murid_kelas,t_murid,t_guru,m_jurusan where t_murid_kelas.id_murid=t_murid.id_murid and t_murid_kelas.id_guru=t_guru.id_guru and t_murid_kelas.id_jurusan=m_jurusan.id_jurusan";
+        $sql = "select * from t_murid_kelas,t_murid,t_guru,m_jurusan where t_murid_kelas.id_murid=t_murid.id_murid and t_murid_kelas.id_guru=t_guru.id_guru and t_murid_kelas.id_jurusan=m_jurusan.id_jurusan order by no_absen asc";
         $data =  DB::select($sql);
         return $data;
 
