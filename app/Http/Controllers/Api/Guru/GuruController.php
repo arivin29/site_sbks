@@ -16,7 +16,7 @@ class GuruController extends Controller {
      */
     public function index(Request $request)
     {
-       $sql = "select * from t_guru order by id_guru asc";
+       $sql = "select * from t_guru order by nama_guru asc";
 
         $data =  DB::select($sql);
 

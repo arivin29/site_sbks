@@ -20,7 +20,7 @@ class MuridController extends Controller {
      */
     public function index(Request $request)
     {
-        $sql = "select * from t_murid order by id_murid asc";
+        $sql = "select * from t_murid order by nama_murid asc";
 
         $data =  DB::select($sql);
 

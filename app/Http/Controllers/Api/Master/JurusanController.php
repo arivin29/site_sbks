@@ -17,7 +17,7 @@ class JurusanController extends Controller {
      */
     public function index()
     {   
-        $sql = "select * from m_jurusan";
+        $sql = "select * from m_jurusan order by id_jurusan asc";
         $data =  DB::select($sql);
         return $data; 
     }
