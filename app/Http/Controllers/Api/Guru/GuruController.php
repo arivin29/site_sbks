@@ -5,9 +5,13 @@ namespace App\Http\Controllers\Api\Guru;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Guru;
+use App\Models\Provinsi;
+use App\Models\Kabkot;
+use App\Models\Kecamatan;
+use App\Models\Kelurahan;
 use Illuminate\Support\Facades\Route;
 use DB;
-use select;
+
 class GuruController extends Controller {
     /**
      * Create a new auth instance.
@@ -16,16 +20,21 @@ class GuruController extends Controller {
      */
     public function index(Request $request)
     {
-       $sql = "select * from t_guru order by nama_guru asc";
-
-        $data =  DB::select($sql);
+        if(strlen($request->input("nama_guru")) > 2){
+           $data = Guru::where("nama_guru","like","%".$request->input('nama_guru')."%")->paginate(15);      
+        }else{
+          $data = Guru::paginate(15);
+        }
 
         return $data;
     }
 
     public function create()
     {
-        //
+        $data ['provinsi'] = Provinsi::select('id_provinsi','provinsi')->get();
+        $data ['kabkot'] = Kabkot::select('id_kabkot','kabkot')->get();
+        $data ['kecamatan'] = Kecamatan::select('id_kec','kecamatan')->get();
+//        $data ['kelurahan'] = Kelurahan::select('id_kelurahan','kelurahan')->get();
     }
 
     /**
@@ -52,7 +61,12 @@ class GuruController extends Controller {
     public function show($id)
     {
         $data = Guru::find($id);
-        return Response()->json($data);
+        $data ['provinsi'] = Provinsi::find($id);
+        $data ['kabkot'] = Kabkot::find($id);
+        $data ['kelurahan'] = Kelurahan::find($id);
+        $data ['kecamatan'] = Kecamatan::find($id);
+
+         return $data;
     }
 
     /**

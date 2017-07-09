@@ -1,46 +1,31 @@
 <?php
 
-namespace App\Http\Controllers\Api\Murid;
+namespace App\Http\Controllers\Api\Wilayah;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Murid;
-use App\Models\Pendidikan;
-use App\Models\Pekerjaan;
-use App\Models\Provinsi;
-use App\Models\Kabkot;
-use App\Models\Kecamatan;
 use App\Models\Kelurahan;
 use Illuminate\Support\Facades\Route;
 use DB;
+use select;
 
-class MuridController extends Controller {
+class KelurahanController extends Controller {
     /**
      * Create a new auth instance.
      *
      * @return void
      */
-    public function index(Request $request)
-    {   
-        if(strlen($request->input("nama_murid")) > 2){
-           $data = Murid::where("nama_murid","like","%".$request->input('nama_murid')."%")->paginate(15);      
-        }else{
-          $data = Murid::paginate(15);
-        }
+    public function index()
+    {
+        $sql = DB::table('t_kelurahan')
+            ->select('t_kelurahan.*')->orderBy('kelurahan', 'asc')->paginate(15);
 
-        return $data;
+        return $sql;
     }
 
     public function create()
     {
-        $data ['pendidikan'] = Pendidikan::select('id_pendidikan','pendidikan')->get();
-        $data ['pekerjaan'] = Pekerjaan::select('id_pekerjaan','pekerjaan')->get();
-        $data ['provinsi'] = Provinsi::select('id_provinsi','provinsi')->get();
-        $data ['kabkot'] = Kabkot::select('id_kabkot','kabkot')->get();
-        $data ['kecamatan'] = Kecamatan::select('id_kec','kecamatan')->get();  
-//        $data ['kelurahan'] = Kelurahan::select('id_kelurahan','kelurahan')->get();
-
-        return $data;
+        //
     }
 
     /**
@@ -51,7 +36,7 @@ class MuridController extends Controller {
      */
     public function store(Request $request)
     {
-        if(Murid::Insert($request))
+        if(Kelurahan::Insert($request))
         {
             return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
@@ -66,15 +51,12 @@ class MuridController extends Controller {
      */
     public function show($id)
     {
-        $data = Murid::find($id);
-        $data ['pendidikan'] = Pendidikan::find($id);
-        $data ['pekerjaan'] = Pekerjaan::find($id);
-        $data ['provinsi'] = Provinsi::find($id);
-        $data ['kabkot'] = Kabkot::find($id);
-        $data ['kelurahan'] = Kelurahan::find($id);
-        $data ['kecamatan'] = Kecamatan::find($id);
+        $data = Kelurahan::find($id);
+        if (is_null($data)) {
+            return Response()->json(['status' => 'false', 'pesan' => 'Tidak ada data ditemukan!'], 400);
+        }
 
-         return $data;
+        return Response()->json($data, 200);
     }
 
     /**
@@ -85,7 +67,7 @@ class MuridController extends Controller {
      */
     public function edit($id)
     {
-        return Murid::find($id);
+        return Kelurahan::find($id);
     }
 
     /**
@@ -97,7 +79,7 @@ class MuridController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        if(Murid::ubah($request,$id))
+        if(Kelurahan::ubah($request,$id))
         {
             return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'],200);
         }
@@ -112,7 +94,7 @@ class MuridController extends Controller {
      */
     public function destroy($id)
     {
-        $data = Murid::find($id);
+        $data = Kelurahan::find($id);
 
         $success=$data->delete();
 

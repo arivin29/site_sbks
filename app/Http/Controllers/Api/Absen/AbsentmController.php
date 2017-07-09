@@ -8,7 +8,6 @@ use App\Models\Absentm;
 use App\Models\Murid;
 use Illuminate\Support\Facades\Route;
 use DB;
-use select;
 
 class AbsentmController extends Controller {
     /**

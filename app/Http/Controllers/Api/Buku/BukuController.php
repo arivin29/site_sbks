@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Buku;
 use App\Models\Guru;
+use App\Models\Kelas;
 use App\Models\Jurusan;
 use Illuminate\Support\Facades\Route;
 use DB;
-use select;
 
 class BukuController extends Controller {
     /**
@@ -19,15 +19,20 @@ class BukuController extends Controller {
      */
     public function index()
     {
-        $sql = "select * from t_buku,t_guru,m_jurusan where t_buku.id_guru=t_guru.id_guru and t_buku.id_jurusan=m_jurusan.id_jurusan order by judul asc";
-        $data =  DB::select($sql);
-        return $data;
+        $sql = DB::table('t_buku')
+            ->join('t_guru', 't_buku.id_guru', '=', 't_guru.id_guru')
+            ->join('m_jurusan', 't_buku.id_jurusan', '=', 'm_jurusan.id_jurusan')
+            ->join('m_kelas', 't_buku.id_kelas', '=', 'm_kelas.id_kelas')
+            ->select('t_buku.*', 'm_jurusan.jurusan', 'm_kelas.kelas')->paginate(15);
+
+        return $sql;
     }
 
     public function create()
     {
         $data ['guru'] = Guru::select('id_guru','nama_guru')->get();
         $data ['jurusan'] = Jurusan::select('id_jurusan','jurusan')->get();
+        $data ['kelas'] = Kelas::select('id_kelas','kelas')->get();
 
         return $data;
     }

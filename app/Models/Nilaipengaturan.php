@@ -17,7 +17,7 @@ class Nilaipengaturan extends Model
    * @var array
    */
   protected $fillable = [
-    'id_guru_mp', 'kelas', 'batas_remedial', 'persentase', 'id_jenis_nilai', 'if_remedial',
+    'id_guru_mp', 'id_kelas', 'batas_remedial', 'persentase', 'id_jenis_nilai', 'if_remedial',
   ];
 
   public $timestamps = false;
@@ -27,7 +27,7 @@ class Nilaipengaturan extends Model
   {
       $data = new Nilaipengaturan();
       $data->id_guru_mp = $request->input('id_guru_mp');
-      $data->kelas = $request->input('kelas');
+      $data->id_kelas = $request->input('id_kelas');
       $data->batas_remedial = $request->input('batas_remedial');
       $data->persentase = $request->input('persentase');
       $data->id_jenis_nilai = $request->input('id_jenis_nilai');
@@ -47,7 +47,7 @@ class Nilaipengaturan extends Model
   {
       $data = Nilaipengaturan::find($id);
       $data->id_guru_mp = $request->input('id_guru_mp');
-      $data->kelas = $request->input('kelas');
+      $data->id_kelas = $request->input('id_kelas');
       $data->batas_remedial = $request->input('batas_remedial');
       $data->persentase = $request->input('persentase');
       $data->id_jenis_nilai = $request->input('id_jenis_nilai');

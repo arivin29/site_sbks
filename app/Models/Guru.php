@@ -17,7 +17,7 @@ class Guru extends Model
    * @var array
    */
   protected $fillable = [
-    'nip', 'nuptk', 'nama_guru', 'nik_ktp', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'nama_ibu', 'status_pegawai', 'golongan', 'tmk_sk_cpns', 'tmk_sk_awal', 'tmk_sk_berakhir', 'alamat', 'id_prov', 'provinsi', 'id_kabkot', 'kabkot', 'id_kec', 'kecamatan', 'id_kel', 'kelurahan', 'no_hp', 'agama', 'kode_pos', 'status_guru',
+    'nip', 'nuptk', 'nama_guru', 'nik_ktp', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'nama_ibu', 'status_pegawai', 'golongan', 'tmk_sk_cpns', 'tmk_sk_awal', 'tmk_sk_berakhir', 'alamat', 'id_provinsi', 'id_kabkot', 'id_kec', 'id_kelurahan', 'no_hp', 'agama', 'kode_pos', 'status_guru',
   ];
 
   protected $primaryKey = 'id_guru';
@@ -39,14 +39,10 @@ class Guru extends Model
       $data->tmk_sk_awal = $request->input('tmk_sk_awal');
       $data->tmk_sk_berakhir = $request->input('tmk_sk_berakhir');
       $data->alamat = $request->input('alamat');
-      $data->id_prov = $request->input('id_prov');
-      $data->provinsi = $request->input('provinsi');
+      $data->id_provinsi = $request->input('id_provinsi');
       $data->id_kabkot = $request->input('id_kabkot');
-      $data->kabkot = $request->input('kabkot');
       $data->id_kec = $request->input('id_kec');
-      $data->kecamatan = $request->input('kecamatan');
-      $data->id_kel = $request->input('id_kel');
-      $data->kelurahan = $request->input('kelurahan');
+//      $data->id_kelurahan = $request->input('id_kelurahan');
       $data->no_hp = $request->input('no_hp');
       $data->agama = $request->input('agama');
       $data->kode_pos = $request->input('kode_pos');
@@ -79,14 +75,10 @@ class Guru extends Model
       $data->tmk_sk_awal = $request->input('tmk_sk_awal');
       $data->tmk_sk_berakhir = $request->input('tmk_sk_berakhir');
       $data->alamat = $request->input('alamat');
-      $data->id_prov = $request->input('id_prov');
-      $data->provinsi = $request->input('provinsi');
+      $data->id_provinsi = $request->input('id_provinsi');
       $data->id_kabkot = $request->input('id_kabkot');
-      $data->kabkot = $request->input('kabkot');
       $data->id_kec = $request->input('id_kec');
-      $data->kecamatan = $request->input('kecamatan');
-      $data->id_kel = $request->input('id_kel');
-      $data->kelurahan = $request->input('kelurahan');
+//      $data->id_kelurahan = $request->input('id_kelurahan');
       $data->no_hp = $request->input('no_hp');
       $data->agama = $request->input('agama');
       $data->kode_pos = $request->input('kode_pos');

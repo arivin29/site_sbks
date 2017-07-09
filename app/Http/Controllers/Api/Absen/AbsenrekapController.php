@@ -9,7 +9,6 @@ use App\Models\Murid;
 use App\Models\Guru;
 use Illuminate\Support\Facades\Route;
 use DB;
-use select;
 
 class AbsenrekapController extends Controller {
     /**
