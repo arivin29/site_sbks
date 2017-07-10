@@ -14,33 +14,21 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Master', 'prefix' => 'v
 	Route::resource('/pekerjaan', 'PekerjaanController');
 	Route::resource('/mapel', 'MapelController');
 	Route::resource('/jn', 'JenisnilaiController');
-	Route::resource('/absen', 'AbsenController');
-	
-});
+	Route::resource('/buku', 'BukuController');	
 
-//Absen
-Route::group(['middleware' => ['api'], 'namespace'=>'Api\Absen', 'prefix' => 'v1/master'], function () {
-
-	Route::resource('/absenrekap', 'AbsenrekapController');
-	Route::resource('/absentm', 'AbsentmController');
-	Route::resource('/absentmt', 'AbsentmtController');
-	Route::resource('/tabsen', 'TabsenController');
-	
-});
-
-//Buku
-Route::group(['middleware' => ['api'], 'namespace'=>'Api\Buku', 'prefix' => 'v1/master'], function () {
-
-	Route::resource('/buku', 'BukuController');
-	
+	Route::resource('/provinsi', 'ProvinsiController');
+	Route::resource('/kabkot', 'KabkotController');
+	Route::resource('/kecamatan', 'KecamatanController');
+	Route::resource('/kelurahan', 'KelurahanController');
 });
 
 //Guru
-Route::group(['middleware' => ['api'], 'namespace'=>'Api\Guru', 'prefix' => 'v1/master'], function () {
+Route::group(['middleware' => ['api'], 'namespace'=>'Api\Guru', 'prefix' => 'v1/guru'], function () {
 
 	Route::resource('/guru', 'GuruController');
 	Route::resource('/gurump', 'GurumpController');
-	
+	Route::resource('/pnilai', 'NilaipengaturanController');
+
 });
 
 //Murid
@@ -54,19 +42,14 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Murid', 'prefix' => 'v1
 
 });
 
-//Nilai
-Route::group(['middleware' => ['api'], 'namespace'=>'Api\Nilai', 'prefix' => 'v1/master'], function () {
+//Absen
+Route::group(['middleware' => ['api'], 'namespace'=>'Api\Absen', 'prefix' => 'v1/absen'], function () {
 
-	Route::resource('/pnilai', 'NilaipengaturanController');
+	Route::resource('/absen', 'AbsenController');
+	Route::resource('/absenrekap', 'AbsenrekapController');
+	Route::resource('/absentm', 'AbsentmController');
+	Route::resource('/absentmt', 'AbsentmtController');
+	Route::resource('/tabsen', 'TabsenController');
 	
 });
 
-//Indonesia
-Route::group(['middleware' => ['api'], 'namespace'=>'Api\Wilayah', 'prefix' => 'v1/wilayah'], function () {
-
-	Route::resource('/provinsi', 'ProvinsiController');
-	Route::resource('/kabkot', 'KabkotController');
-	Route::resource('/kecamatan', 'KecamatanController');
-	Route::resource('/kelurahan', 'KelurahanController');
-	
-});

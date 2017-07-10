@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Api\Wilayah;
+namespace App\Http\Controllers\Api\Master;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Kecamatan;
+use App\Models\Kelurahan;
 use Illuminate\Support\Facades\Route;
 use DB;
 use select;
 
-class KecamatanController extends Controller {
+class KelurahanController extends Controller {
     /**
      * Create a new auth instance.
      *
@@ -17,8 +17,8 @@ class KecamatanController extends Controller {
      */
     public function index()
     {
-        $sql = DB::table('t_kecamatan')
-            ->select('t_kecamatan.*')->orderBy('kecamatan', 'asc')->paginate(15);
+        $sql = DB::table('t_kelurahan')
+            ->select('t_kelurahan.*')->orderBy('kelurahan', 'asc')->paginate(15);
 
         return $sql;
     }
@@ -36,7 +36,7 @@ class KecamatanController extends Controller {
      */
     public function store(Request $request)
     {
-        if(Kecamatan::Insert($request))
+        if(Kelurahan::Insert($request))
         {
             return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
@@ -51,7 +51,7 @@ class KecamatanController extends Controller {
      */
     public function show($id)
     {
-        $data = Kecamatan::find($id);
+        $data = Kelurahan::find($id);
         if (is_null($data)) {
             return Response()->json(['status' => 'false', 'pesan' => 'Tidak ada data ditemukan!'], 400);
         }
@@ -67,7 +67,7 @@ class KecamatanController extends Controller {
      */
     public function edit($id)
     {
-        return Kecamatan::find($id);
+        return Kelurahan::find($id);
     }
 
     /**
@@ -79,7 +79,7 @@ class KecamatanController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        if(Kecamatan::ubah($request,$id))
+        if(Kelurahan::ubah($request,$id))
         {
             return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'],200);
         }
@@ -94,7 +94,7 @@ class KecamatanController extends Controller {
      */
     public function destroy($id)
     {
-        $data = Kecamatan::find($id);
+        $data = Kelurahan::find($id);
 
         $success=$data->delete();
 

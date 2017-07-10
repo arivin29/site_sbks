@@ -35,6 +35,7 @@ class GuruController extends Controller {
         $data ['kabkot'] = Kabkot::select('id_kabkot','kabkot')->get();
         $data ['kecamatan'] = Kecamatan::select('id_kec','kecamatan')->get();
 //        $data ['kelurahan'] = Kelurahan::select('id_kelurahan','kelurahan')->get();
+        return $data;
     }
 
     /**
