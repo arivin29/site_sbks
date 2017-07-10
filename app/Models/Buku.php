@@ -17,7 +17,7 @@ class Buku extends Model
    * @var array
    */
   protected $fillable = [
-    'tingkat', 'id_jurusan', 'kelas_paralel', 'id_guru', 'judul', 'keterangan', 'nama_file', 'keyword', 'lokasi_file'
+    'id_jurusan', 'id_kelas', 'id_guru', 'judul', 'keterangan', 'nama_file', 'keyword', 'lokasi_file'
   ];
   
   public $timestamps = false;
@@ -26,9 +26,8 @@ class Buku extends Model
   protected static function Insert($request)
   {
       $data = new Buku();
-      $data->tingkat = $request->input('tingkat');
       $data->id_jurusan = $request->input('id_jurusan');
-      $data->kelas_paralel = $request->input('kelas_paralel');
+      $data->id_kelas = $request->input('id_kelas');
       $data->id_guru = $request->input('id_guru');
       $data->judul = $request->input('judul');
       $data->keterangan = $request->input('keterangan');
@@ -49,9 +48,8 @@ class Buku extends Model
   protected static function ubah(Request $request,$id)
   {
       $data = Buku::find($id);
-      $data->tingkat = $request->input('tingkat');
       $data->id_jurusan = $request->input('id_jurusan');
-      $data->kelas_paralel = $request->input('kelas_paralel');
+      $data->id_kelas = $request->input('id_kelas');
       $data->id_guru = $request->input('id_guru');
       $data->judul = $request->input('judul');
       $data->keterangan = $request->input('keterangan');

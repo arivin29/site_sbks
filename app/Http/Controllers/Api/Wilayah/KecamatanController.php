@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Api\Nilai;
+namespace App\Http\Controllers\Api\Wilayah;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Nilai;
-use App\Models\Murid;
-use App\Models\Jenisnilai;
+use App\Models\Kecamatan;
 use Illuminate\Support\Facades\Route;
 use DB;
 use select;
 
-class NilaiController extends Controller {
+class KecamatanController extends Controller {
     /**
      * Create a new auth instance.
      *
@@ -19,25 +17,15 @@ class NilaiController extends Controller {
      */
     public function index()
     {
-        $sql = "select * from t_nilai,t_murid,m_jenis_nilai where t_nilai.id_murid=t_murid.id_murid and t_nilai.id_jenis_nilai=m_jenis_nilai.id_jenis_nilai";
-        $data =  DB::select($sql);
-        return $data;
-
-/*        $sql = DB::table('t_nilai')
-            ->join('t_murid', 't_nilai.id_murid', '=', 't_murid.id_murid')
-            ->join('m_jenis_nilai', 't_nilai.id_jenis_nilai', '=', 'm_jenis_nilai.id_jenis_nilai')
-            ->select('t_nilai.*', 't_murid.nama_murid', 'm_jenis_nilai.jenis')->paginate(10);
+        $sql = DB::table('t_kecamatan')
+            ->select('t_kecamatan.*')->orderBy('kecamatan', 'asc')->paginate(15);
 
         return $sql;
-*/
     }
 
-    public function create(Request $request)
+    public function create()
     {
-        $data ['murid'] = Murid::select('id_murid','nama_murid')->get();
-        $data ['jn'] = Jenisnilai::select('id_jenis_nilai','jenis')->get();
-
-        return $data;
+        //
     }
 
     /**
@@ -48,7 +36,7 @@ class NilaiController extends Controller {
      */
     public function store(Request $request)
     {
-        if(Nilai::Insert($request))
+        if(Kecamatan::Insert($request))
         {
             return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
@@ -63,7 +51,7 @@ class NilaiController extends Controller {
      */
     public function show($id)
     {
-        $data = Nilai::find($id);
+        $data = Kecamatan::find($id);
         if (is_null($data)) {
             return Response()->json(['status' => 'false', 'pesan' => 'Tidak ada data ditemukan!'], 400);
         }
@@ -79,7 +67,7 @@ class NilaiController extends Controller {
      */
     public function edit($id)
     {
-        return Nilai::find($id);
+        return Kecamatan::find($id);
     }
 
     /**
@@ -91,7 +79,7 @@ class NilaiController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        if(Nilai::ubah($request,$id))
+        if(Kecamatan::ubah($request,$id))
         {
             return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'],200);
         }
@@ -106,7 +94,7 @@ class NilaiController extends Controller {
      */
     public function destroy($id)
     {
-        $data = Nilai::find($id);
+        $data = Kecamatan::find($id);
 
         $success=$data->delete();
 

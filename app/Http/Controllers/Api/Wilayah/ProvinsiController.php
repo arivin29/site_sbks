@@ -1,28 +1,29 @@
 <?php
 
-namespace App\Http\Controllers\Api\Master;
+namespace App\Http\Controllers\Api\Wilayah;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Kelas;
+use App\Models\Provinsi;
 use Illuminate\Support\Facades\Route;
 use DB;
 use select;
 
-class KelasController extends Controller {
+class ProvinsiController extends Controller {
     /**
      * Create a new auth instance.
      *
      * @return void
      */
     public function index()
-    {   
-        $sql = "select * from m_kelas order by id_kelas asc";
-        $data =  DB::select($sql);
-        return $data; 
+    {
+        $sql = DB::table('t_provinsi')
+            ->select('t_provinsi.*')->orderBy('provinsi', 'asc')->paginate(15);
+
+        return $sql;
     }
 
-    public function create(Request $request)
+    public function create()
     {
         //
     }
@@ -35,7 +36,7 @@ class KelasController extends Controller {
      */
     public function store(Request $request)
     {
-        if(Kelas::Insert($request))
+        if(Provinsi::Insert($request))
         {
             return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
@@ -50,7 +51,7 @@ class KelasController extends Controller {
      */
     public function show($id)
     {
-        $data = Kelas::find($id);
+        $data = Provinsi::find($id);
         if (is_null($data)) {
             return Response()->json(['status' => 'false', 'pesan' => 'Tidak ada data ditemukan!'], 400);
         }
@@ -66,7 +67,7 @@ class KelasController extends Controller {
      */
     public function edit($id)
     {
-        return Kelas::find($id);
+        return Provinsi::find($id);
     }
 
     /**
@@ -78,7 +79,7 @@ class KelasController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        if(Kelas::ubah($request,$id))
+        if(Provinsi::ubah($request,$id))
         {
             return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'],200);
         }
@@ -93,7 +94,7 @@ class KelasController extends Controller {
      */
     public function destroy($id)
     {
-        $data = Kelas::find($id);
+        $data = Provinsi::find($id);
 
         $success=$data->delete();
 

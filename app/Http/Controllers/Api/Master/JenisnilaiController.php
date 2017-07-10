@@ -18,7 +18,7 @@ class JenisnilaiController extends Controller {
     public function index()
     {
         $sql = DB::table('m_jenis_nilai')
-            ->select('m_jenis_nilai.*')->paginate(10);
+            ->select('m_jenis_nilai.*')->paginate(15);
 
         return $sql;
     }

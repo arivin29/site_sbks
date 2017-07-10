@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Nilai;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Nilaipengaturan;
+use App\Models\Kelas;
 use App\Models\Jenisnilai;
 use Illuminate\Support\Facades\Route;
 use DB;
@@ -20,7 +21,8 @@ class NilaipengaturanController extends Controller {
     {
         $sql = DB::table('t_nilai_pengaturan')
             ->join('m_jenis_nilai', 't_nilai_pengaturan.id_jenis_nilai', '=', 'm_jenis_nilai.id_jenis_nilai')
-            ->select('t_nilai_pengaturan.*', 'm_jenis_nilai.jenis')->paginate(10);
+            ->join('m_kelas', 't_nilai_pengaturan.id_kelas', '=', 'm_kelas.id_kelas')
+            ->select('t_nilai_pengaturan.*', 'm_jenis_nilai.jenis', 'm_kelas.kelas')->paginate(15);
 
         return $sql;
     }
@@ -28,6 +30,7 @@ class NilaipengaturanController extends Controller {
     public function create()
     {
         $data ['jn'] = Jenisnilai::select('id_jenis_nilai','jenis')->get();
+        $data ['kelas'] = Kelas::select('id_kelas','kelas')->get();
 
         return $data;
     }

@@ -8,9 +8,9 @@ use App\Models\Muridkelas;
 use App\Models\Murid;
 use App\Models\Guru;
 use App\Models\Jurusan;
+use App\Models\Kelas;
 use Illuminate\Support\Facades\Route;
 use DB;
-use select;
 
 class MuridkelasController extends Controller {
     /**
@@ -18,9 +18,9 @@ class MuridkelasController extends Controller {
      *
      * @return void
      */
-    public function index()
+    public function index(Request $request)
     {   
-        $sql = "select * from t_murid_kelas,t_murid,t_guru,m_jurusan where t_murid_kelas.id_murid=t_murid.id_murid and t_murid_kelas.id_guru=t_guru.id_guru and t_murid_kelas.id_jurusan=m_jurusan.id_jurusan order by no_absen asc";
+        $sql = "select * from t_murid_kelas,t_murid,t_guru,m_jurusan,m_kelas where t_murid_kelas.id_murid=t_murid.id_murid and t_murid_kelas.id_guru=t_guru.id_guru and t_murid_kelas.id_jurusan=m_jurusan.id_jurusan and t_murid_kelas.id_kelas=m_kelas.id_kelas order by nama_murid asc";
         $data =  DB::select($sql);
         return $data;
 
@@ -38,6 +38,7 @@ class MuridkelasController extends Controller {
         $data ['murid'] = Murid::select('id_murid','nama_murid')->get();
         $data ['guru'] = Guru::select('id_guru','nama_guru')->get();
         $data ['jurusan'] = Jurusan::select('id_jurusan','jurusan')->get();
+        $data ['kelas'] = Kelas::select('id_kelas','kelas')->get();
 
         return $data;
     }

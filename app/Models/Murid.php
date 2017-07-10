@@ -17,7 +17,7 @@ class Murid extends Model
    * @var array
    */
   protected $fillable = [
-    'nis', 'nisn', 'nama_murid', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'hobi', 'cita_cita', 'jumlah_saudara', 'alamat', 'id_provinsi', 'provinsi', 'id_kabkot', 'kabkot', 'id_kec', 'kecamatan', 'kode_pos', 'no_kk', 'nama_ayah', 'id_pendidikan_ayah', 'id_pekerjaan_ayah', 'nama_ibu', 'id_pendidikan_ibu', 'id_pekerjaan_ibu', 'status_murid', 'agama',
+    'nis', 'nisn', 'nama_murid', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'hobi', 'cita_cita', 'jumlah_saudara', 'alamat', 'id_provinsi', 'id_kabkot', 'id_kec', 'id_kelurahan', 'kode_pos', 'no_kk', 'nama_ayah', 'id_pendidikan_ayah', 'id_pekerjaan_ayah', 'nama_ibu', 'id_pendidikan_ibu', 'id_pekerjaan_ibu', 'status_murid', 'agama',
   ];
 
   protected $primaryKey = 'id_murid';
@@ -36,11 +36,9 @@ class Murid extends Model
       $data->jumlah_saudara = $request->input('jumlah_saudara');
       $data->alamat = $request->input('alamat');
       $data->id_provinsi = $request->input('id_provinsi');
-      $data->provinsi = $request->input('provinsi');
       $data->id_kabkot = $request->input('id_kabkot');
-      $data->kabkot = $request->input('kabkot');
       $data->id_kec = $request->input('id_kec');
-      $data->kecamatan = $request->input('kecamatan');
+//      $data->id_kelurahan = $request->input('id_kelurahan');
       $data->kode_pos = $request->input('kode_pos');
       $data->no_kk = $request->input('no_kk');
       $data->nama_ayah = $request->input('nama_ayah');
@@ -76,11 +74,9 @@ class Murid extends Model
       $data->jumlah_saudara = $request->input('jumlah_saudara');
       $data->alamat = $request->input('alamat');
       $data->id_provinsi = $request->input('id_provinsi');
-      $data->provinsi = $request->input('provinsi');
       $data->id_kabkot = $request->input('id_kabkot');
-      $data->kabkot = $request->input('kabkot');
       $data->id_kec = $request->input('id_kec');
-      $data->kecamatan = $request->input('kecamatan');
+//      $data->id_kelurahan = $request->input('id_kelurahan');
       $data->kode_pos = $request->input('kode_pos');
       $data->no_kk = $request->input('no_kk');
       $data->nama_ayah = $request->input('nama_ayah');

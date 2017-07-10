@@ -15,8 +15,6 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Master', 'prefix' => 'v
 	Route::resource('/mapel', 'MapelController');
 	Route::resource('/jn', 'JenisnilaiController');
 	Route::resource('/absen', 'AbsenController');
-	Route::resource('/jurusan', 'JurusanController');
-	Route::resource('/kelas', 'KelasController');
 	
 });
 
@@ -46,17 +44,29 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Guru', 'prefix' => 'v1/
 });
 
 //Murid
-Route::group(['middleware' => ['api'], 'namespace'=>'Api\Murid', 'prefix' => 'v1/master'], function () {
+Route::group(['middleware' => ['api'], 'namespace'=>'Api\Murid', 'prefix' => 'v1/murid'], function () {
 
 	Route::resource('/murid', 'MuridController');
 	Route::resource('/muridkelas', 'MuridkelasController');
-	
+	Route::resource('/kelas', 'KelasController');	
+	Route::resource('/jurusan', 'JurusanController');
+	Route::resource('/nilai', 'NilaiController');
+
 });
 
 //Nilai
 Route::group(['middleware' => ['api'], 'namespace'=>'Api\Nilai', 'prefix' => 'v1/master'], function () {
 
-	Route::resource('/nilai', 'NilaiController');
 	Route::resource('/pnilai', 'NilaipengaturanController');
+	
+});
+
+//Indonesia
+Route::group(['middleware' => ['api'], 'namespace'=>'Api\Wilayah', 'prefix' => 'v1/wilayah'], function () {
+
+	Route::resource('/provinsi', 'ProvinsiController');
+	Route::resource('/kabkot', 'KabkotController');
+	Route::resource('/kecamatan', 'KecamatanController');
+	Route::resource('/kelurahan', 'KelurahanController');
 	
 });

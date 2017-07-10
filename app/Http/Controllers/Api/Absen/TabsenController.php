@@ -8,7 +8,6 @@ use App\Models\Tabsen;
 use App\Models\Murid;
 use Illuminate\Support\Facades\Route;
 use DB;
-use select;
 
 class TabsenController extends Controller {
     /**

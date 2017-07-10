@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api\Master;
+namespace App\Http\Controllers\Api\Murid;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Jurusan;
+use App\Models\Kelas;
 use Illuminate\Support\Facades\Route;
 use DB;
-use select;
 
-class JurusanController extends Controller {
+class KelasController extends Controller {
     /**
      * Create a new auth instance.
      *
@@ -17,7 +16,7 @@ class JurusanController extends Controller {
      */
     public function index()
     {   
-        $sql = "select * from m_jurusan order by id_jurusan asc";
+        $sql = "select * from m_kelas order by id_kelas asc";
         $data =  DB::select($sql);
         return $data; 
     }
@@ -35,7 +34,7 @@ class JurusanController extends Controller {
      */
     public function store(Request $request)
     {
-        if(Jurusan::Insert($request))
+        if(Kelas::Insert($request))
         {
             return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
@@ -50,7 +49,7 @@ class JurusanController extends Controller {
      */
     public function show($id)
     {
-        $data = Jurusan::find($id);
+        $data = Kelas::find($id);
         if (is_null($data)) {
             return Response()->json(['status' => 'false', 'pesan' => 'Tidak ada data ditemukan!'], 400);
         }
@@ -66,7 +65,7 @@ class JurusanController extends Controller {
      */
     public function edit($id)
     {
-        return Jurusan::find($id);
+        return Kelas::find($id);
     }
 
     /**
@@ -78,7 +77,7 @@ class JurusanController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        if(Jurusan::ubah($request,$id))
+        if(Kelas::ubah($request,$id))
         {
             return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'],200);
         }
@@ -93,7 +92,7 @@ class JurusanController extends Controller {
      */
     public function destroy($id)
     {
-        $data = Jurusan::find($id);
+        $data = Kelas::find($id);
 
         $success=$data->delete();
 
