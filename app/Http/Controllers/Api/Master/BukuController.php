@@ -4,35 +4,35 @@ namespace App\Http\Controllers\Api\Master;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Absen;
-use App\Models\Murid;
+use App\Models\Buku;
+use App\Models\Guru;
+use App\Models\Kelas;
+use App\Models\Jurusan;
 use Illuminate\Support\Facades\Route;
 use DB;
-use select;
 
-class AbsenController extends Controller {
+class BukuController extends Controller {
     /**
      * Create a new auth instance.
      *
      * @return void
      */
     public function index()
-    {   
-        $sql = "select * from m_absen,t_murid where m_absen.id_murid=t_murid.id_murid";
-        $data =  DB::select($sql);
-        return $data;
-
-/*        $sql = DB::table('m_absen')
-            ->join('t_murid', 'm_absen.id_murid', '=', 't_murid.id_murid')
-            ->select('m_absen.*', 't_murid.nama_murid')->paginate(10);
+    {
+        $sql = DB::table('t_buku')
+            ->join('t_guru', 't_buku.id_guru', '=', 't_guru.id_guru')
+            ->join('m_jurusan', 't_buku.id_jurusan', '=', 'm_jurusan.id_jurusan')
+            ->join('m_kelas', 't_buku.id_kelas', '=', 'm_kelas.id_kelas')
+            ->select('t_buku.*', 'm_jurusan.jurusan', 'm_kelas.kelas')->paginate(15);
 
         return $sql;
-*/        
     }
 
-    public function create(Request $request)
+    public function create()
     {
-        $data ['murid'] = Murid::select('id_murid','nama_murid')->get();
+        $data ['guru'] = Guru::select('id_guru','nama_guru')->get();
+        $data ['jurusan'] = Jurusan::select('id_jurusan','jurusan')->get();
+        $data ['kelas'] = Kelas::select('id_kelas','kelas')->get();
 
         return $data;
     }
@@ -45,7 +45,7 @@ class AbsenController extends Controller {
      */
     public function store(Request $request)
     {
-        if(Absen::Insert($request))
+        if(Buku::Insert($request))
         {
             return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
@@ -60,7 +60,7 @@ class AbsenController extends Controller {
      */
     public function show($id)
     {
-        $data = Absen::find($id);
+        $data = Buku::find($id);
         if (is_null($data)) {
             return Response()->json(['status' => 'false', 'pesan' => 'Tidak ada data ditemukan!'], 400);
         }
@@ -76,7 +76,7 @@ class AbsenController extends Controller {
      */
     public function edit($id)
     {
-        return Absen::find($id);
+        return Buku::find($id);
     }
 
     /**
@@ -88,7 +88,7 @@ class AbsenController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        if(Absen::ubah($request,$id))
+        if(Buku::ubah($request,$id))
         {
             return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'],200);
         }
@@ -103,7 +103,7 @@ class AbsenController extends Controller {
      */
     public function destroy($id)
     {
-        $data = Absen::find($id);
+        $data = Buku::find($id);
 
         $success=$data->delete();
 

@@ -23,14 +23,6 @@ class MuridkelasController extends Controller {
         $sql = "select * from t_murid_kelas,t_murid,t_guru,m_jurusan,m_kelas where t_murid_kelas.id_murid=t_murid.id_murid and t_murid_kelas.id_guru=t_guru.id_guru and t_murid_kelas.id_jurusan=m_jurusan.id_jurusan and t_murid_kelas.id_kelas=m_kelas.id_kelas order by nama_murid asc";
         $data =  DB::select($sql);
         return $data;
-
-/*        $sql = DB::table('t_murid_kelas')
-            ->join('t_murid', 't_murid_kelas.id_murid', '=', 't_murid.id_murid')
-            ->join('t_guru', 't_murid_kelas.id_guru', '=', 't_guru.id_guru')
-            ->select('t_murid_kelas.*', 't_murid.nama_murid', 't_guru.nama_guru')->paginate(10);
-
-        return $sql;
-*/
     }
 
     public function create()

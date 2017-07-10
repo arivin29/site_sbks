@@ -1,36 +1,38 @@
 <?php
 
-namespace App\Http\Controllers\Api\Nilai;
+namespace App\Http\Controllers\Api\Absen;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Nilaipengaturan;
-use App\Models\Kelas;
-use App\Models\Jenisnilai;
+use App\Models\Absen;
+use App\Models\Murid;
 use Illuminate\Support\Facades\Route;
 use DB;
 use select;
 
-class NilaipengaturanController extends Controller {
+class AbsenController extends Controller {
     /**
      * Create a new auth instance.
      *
      * @return void
      */
     public function index()
-    {
-        $sql = DB::table('t_nilai_pengaturan')
-            ->join('m_jenis_nilai', 't_nilai_pengaturan.id_jenis_nilai', '=', 'm_jenis_nilai.id_jenis_nilai')
-            ->join('m_kelas', 't_nilai_pengaturan.id_kelas', '=', 'm_kelas.id_kelas')
-            ->select('t_nilai_pengaturan.*', 'm_jenis_nilai.jenis', 'm_kelas.kelas')->paginate(15);
+    {   
+        $sql = "select * from m_absen,t_murid where m_absen.id_murid=t_murid.id_murid";
+        $data =  DB::select($sql);
+        return $data;
+
+/*        $sql = DB::table('m_absen')
+            ->join('t_murid', 'm_absen.id_murid', '=', 't_murid.id_murid')
+            ->select('m_absen.*', 't_murid.nama_murid')->paginate(10);
 
         return $sql;
+*/        
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        $data ['jn'] = Jenisnilai::select('id_jenis_nilai','jenis')->get();
-        $data ['kelas'] = Kelas::select('id_kelas','kelas')->get();
+        $data ['murid'] = Murid::select('id_murid','nama_murid')->get();
 
         return $data;
     }
@@ -43,7 +45,7 @@ class NilaipengaturanController extends Controller {
      */
     public function store(Request $request)
     {
-        if(Nilaipengaturan::Insert($request))
+        if(Absen::Insert($request))
         {
             return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
@@ -58,7 +60,7 @@ class NilaipengaturanController extends Controller {
      */
     public function show($id)
     {
-        $data = Nilaipengaturan::find($id);
+        $data = Absen::find($id);
         if (is_null($data)) {
             return Response()->json(['status' => 'false', 'pesan' => 'Tidak ada data ditemukan!'], 400);
         }
@@ -74,7 +76,7 @@ class NilaipengaturanController extends Controller {
      */
     public function edit($id)
     {
-        return Nilaipengaturan::find($id);
+        return Absen::find($id);
     }
 
     /**
@@ -86,7 +88,7 @@ class NilaipengaturanController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        if(Nilaipengaturan::ubah($request,$id))
+        if(Absen::ubah($request,$id))
         {
             return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'],200);
         }
@@ -101,7 +103,7 @@ class NilaipengaturanController extends Controller {
      */
     public function destroy($id)
     {
-        $data = Nilaipengaturan::find($id);
+        $data = Absen::find($id);
 
         $success=$data->delete();
 
