@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Api\Murid;
+namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Kelas;
+use App\Models\Gurump;
+use App\Models\Mapel;
+use App\Models\Guru;
 use Illuminate\Support\Facades\Route;
 use DB;
+use select;
 
-class KelasController extends Controller {
+class GurumpController extends Controller {
     /**
      * Create a new auth instance.
      *
@@ -16,14 +19,19 @@ class KelasController extends Controller {
      */
     public function index()
     {   
-        $sql = "select * from m_kelas order by id_kelas asc";
+        $sql = "select * from t_guru_mp,m_mata_pelajaran,t_guru where t_guru_mp.id_mata_pelajaran=m_mata_pelajaran.id_mata_pelajaran and t_guru_mp.id_guru=t_guru.id_guru order by id_guru_mp desc";
         $data =  DB::select($sql);
-        return $data; 
+        return $data;
+
     }
 
-    public function create(Request $request)
+    public function create()
     {
-        //
+        $data ['mapel'] = Mapel::select('id_mata_pelajaran','mata_pelajaran')->get();
+        $data ['guru'] = Guru::select('id_guru','nama_guru')->get();
+    
+        return $data;
+
     }
 
     /**
@@ -34,7 +42,7 @@ class KelasController extends Controller {
      */
     public function store(Request $request)
     {
-        if(Kelas::Insert($request))
+        if(Gurump::Insert($request))
         {
             return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
@@ -49,7 +57,7 @@ class KelasController extends Controller {
      */
     public function show($id)
     {
-        $data = Kelas::find($id);
+        $data = Gurump::find($id);
         if (is_null($data)) {
             return Response()->json(['status' => 'false', 'pesan' => 'Tidak ada data ditemukan!'], 400);
         }
@@ -65,7 +73,7 @@ class KelasController extends Controller {
      */
     public function edit($id)
     {
-        return Kelas::find($id);
+        return Gurump::find($id);
     }
 
     /**
@@ -77,7 +85,7 @@ class KelasController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        if(Kelas::ubah($request,$id))
+        if(Gurump::ubah($request,$id))
         {
             return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'],200);
         }
@@ -92,7 +100,7 @@ class KelasController extends Controller {
      */
     public function destroy($id)
     {
-        $data = Kelas::find($id);
+        $data = Gurump::find($id);
 
         $success=$data->delete();
 

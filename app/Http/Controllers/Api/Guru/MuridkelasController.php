@@ -4,34 +4,40 @@ namespace App\Http\Controllers\Api\Guru;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Gurump;
-use App\Models\Mapel;
+use App\Models\Muridkelas;
+use App\Models\Murid;
 use App\Models\Guru;
+use App\Models\Jurusan;
+use App\Models\Kelas;
 use Illuminate\Support\Facades\Route;
 use DB;
-use select;
 
-class GurumpController extends Controller {
+class MuridkelasController extends Controller {
     /**
      * Create a new auth instance.
      *
      * @return void
      */
-    public function index()
+    public function index(Request $request)
     {   
-        $sql = "select * from t_guru_mp,m_mata_pelajaran,t_guru where t_guru_mp.id_mata_pelajaran=m_mata_pelajaran.id_mata_pelajaran and t_guru_mp.id_guru=t_guru.id_guru order by id_guru_mp desc";
+        $sql = "select * from t_murid_kelas,t_murid,t_guru,m_jurusan,m_kelas 
+                where t_murid_kelas.id_murid=t_murid.id_murid 
+                and t_murid_kelas.id_guru=t_guru.id_guru 
+                and t_murid_kelas.id_jurusan=m_jurusan.id_jurusan 
+                and t_murid_kelas.id_kelas=m_kelas.id_kelas";
+
         $data =  DB::select($sql);
         return $data;
-
     }
 
     public function create()
     {
-        $data ['mapel'] = Mapel::select('id_mata_pelajaran','mata_pelajaran')->get();
+        $data ['murid'] = Murid::select('id_murid','nama_murid')->get();
         $data ['guru'] = Guru::select('id_guru','nama_guru')->get();
-    
-        return $data;
+        $data ['jurusan'] = Jurusan::select('id_jurusan','jurusan')->get();
+        $data ['kelas'] = Kelas::select('id_kelas','kelas')->get();
 
+        return $data;
     }
 
     /**
@@ -42,7 +48,7 @@ class GurumpController extends Controller {
      */
     public function store(Request $request)
     {
-        if(Gurump::Insert($request))
+        if(Muridkelas::Insert($request))
         {
             return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
@@ -57,12 +63,32 @@ class GurumpController extends Controller {
      */
     public function show($id)
     {
-        $data = Gurump::find($id);
-        if (is_null($data)) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Tidak ada data ditemukan!'], 400);
-        }
+        $sql = "select * from t_murid_kelas,t_murid,m_kelas 
+                where t_murid_kelas.id_murid=t_murid.id_murid 
+                and t_murid_kelas.id_kelas=m_kelas.id_kelas 
+                and t_murid_kelas.id_kelas=".$id;
+        $data ['kelas'] = DB::select($sql);
 
-        return Response()->json($data, 200);
+        $sql= "select * from t_murid_kelas,t_murid,m_jurusan 
+                where t_murid_kelas.id_murid=t_murid.id_murid 
+                and t_murid_kelas.id_jurusan=m_jurusan.id_jurusan 
+                and t_murid_kelas.id_jurusan=".$id;
+        $data ['jurusan'] = DB::select($sql);
+
+        $sql= "select * from t_murid_kelas,t_murid,t_guru 
+                where t_murid_kelas.id_murid=t_murid.id_murid 
+                and t_murid_kelas.id_guru=t_guru.id_guru 
+                and t_murid_kelas.id_guru=".$id;
+        $data ['guru'] = DB::select($sql);
+
+        $sql = "select * from t_guru_mp,m_mata_pelajaran,t_guru 
+                where t_guru_mp.id_mata_pelajaran=m_mata_pelajaran.id_mata_pelajaran 
+                and t_guru_mp.id_guru=t_guru.id_guru 
+                and t_guru_mp.id_guru=".$id;
+        $data ['gurump'] =  DB::select($sql);
+
+        return $data;
+
     }
 
     /**
@@ -73,7 +99,7 @@ class GurumpController extends Controller {
      */
     public function edit($id)
     {
-        return Gurump::find($id);
+        return Muridkelas::find($id);
     }
 
     /**
@@ -85,7 +111,7 @@ class GurumpController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        if(Gurump::ubah($request,$id))
+        if(Muridkelas::ubah($request,$id))
         {
             return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'],200);
         }
@@ -100,7 +126,7 @@ class GurumpController extends Controller {
      */
     public function destroy($id)
     {
-        $data = Gurump::find($id);
+        $data = Muridkelas::find($id);
 
         $success=$data->delete();
 

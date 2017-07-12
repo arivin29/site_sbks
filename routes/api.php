@@ -14,7 +14,9 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Master', 'prefix' => 'v
 	Route::resource('/pekerjaan', 'PekerjaanController');
 	Route::resource('/mapel', 'MapelController');
 	Route::resource('/jn', 'JenisnilaiController');
-	Route::resource('/buku', 'BukuController');	
+	Route::resource('/buku', 'BukuController');
+	Route::resource('/kelas', 'KelasController');	
+	Route::resource('/jurusan', 'JurusanController');	
 
 	Route::resource('/provinsi', 'ProvinsiController');
 	Route::resource('/kabkot', 'KabkotController');
@@ -25,19 +27,15 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Master', 'prefix' => 'v
 //Guru
 Route::group(['middleware' => ['api'], 'namespace'=>'Api\Guru', 'prefix' => 'v1/guru'], function () {
 
-	Route::resource('/guru', 'GuruController');
-	Route::resource('/gurump', 'GurumpController');
 	Route::resource('/pnilai', 'NilaipengaturanController');
+	Route::resource('/muridkelas', 'MuridkelasController');
 
 });
 
 //Murid
 Route::group(['middleware' => ['api'], 'namespace'=>'Api\Murid', 'prefix' => 'v1/murid'], function () {
 
-	Route::resource('/murid', 'MuridController');
 	Route::resource('/muridkelas', 'MuridkelasController');
-	Route::resource('/kelas', 'KelasController');	
-	Route::resource('/jurusan', 'JurusanController');
 	Route::resource('/nilai', 'NilaiController');
 
 });
@@ -53,3 +51,12 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Absen', 'prefix' => 'v1
 	
 });
 
+//Admin
+Route::group(['middleware' => ['api'], 'namespace'=>'Api\Admin', 'prefix' => 'v1/admin'], function () {
+
+	Route::resource('/gurump', 'GurumpController');
+	Route::resource('/murid', 'MuridController');
+	Route::resource('/guru', 'GuruController');	
+	Route::resource('/muridkelas', 'MuridkelasController');
+
+});
