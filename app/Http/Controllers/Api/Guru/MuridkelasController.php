@@ -1,29 +1,43 @@
 <?php
 
-namespace App\Http\Controllers\Api\Murid;
+namespace App\Http\Controllers\Api\Guru;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Muridkelas;
+use App\Models\Murid;
+use App\Models\Guru;
+use App\Models\Jurusan;
 use App\Models\Kelas;
 use Illuminate\Support\Facades\Route;
 use DB;
 
-class KelasController extends Controller {
+class MuridkelasController extends Controller {
     /**
      * Create a new auth instance.
      *
      * @return void
      */
-    public function index()
+    public function index(Request $request)
     {   
-        $sql = "select * from m_kelas order by id_kelas asc";
+        $sql = "select * from t_murid_kelas,t_murid,t_guru,m_jurusan,m_kelas 
+                where t_murid_kelas.id_murid=t_murid.id_murid 
+                and t_murid_kelas.id_guru=t_guru.id_guru 
+                and t_murid_kelas.id_jurusan=m_jurusan.id_jurusan 
+                and t_murid_kelas.id_kelas=m_kelas.id_kelas";
+
         $data =  DB::select($sql);
-        return $data; 
+        return $data;
     }
 
-    public function create(Request $request)
+    public function create()
     {
-        //
+        $data ['murid'] = Murid::select('id_murid','nama_murid')->get();
+        $data ['guru'] = Guru::select('id_guru','nama_guru')->get();
+        $data ['jurusan'] = Jurusan::select('id_jurusan','jurusan')->get();
+        $data ['kelas'] = Kelas::select('id_kelas','kelas')->get();
+
+        return $data;
     }
 
     /**
@@ -34,7 +48,7 @@ class KelasController extends Controller {
      */
     public function store(Request $request)
     {
-        if(Kelas::Insert($request))
+        if(Muridkelas::Insert($request))
         {
             return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
@@ -49,12 +63,24 @@ class KelasController extends Controller {
      */
     public function show($id)
     {
-        $data = Kelas::find($id);
-        if (is_null($data)) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Tidak ada data ditemukan!'], 400);
-        }
+        $sql = "select * from t_murid_kelas,t_murid,m_kelas 
+                where t_murid_kelas.id_murid=t_murid.id_murid 
+                and t_murid_kelas.id_kelas=m_kelas.id_kelas 
+                and t_murid_kelas.id_kelas=".$id;
+        $data ['kelas'] = DB::select($sql);
 
-        return Response()->json($data, 200);
+        $sql= "select * from t_murid_kelas,t_murid,m_jurusan 
+                where t_murid_kelas.id_murid=t_murid.id_murid 
+                and t_murid_kelas.id_jurusan=m_jurusan.id_jurusan 
+                and t_murid_kelas.id_jurusan=".$id;
+        $data ['jurusan'] = DB::select($sql);
+
+        $sql= "select * from t_murid_kelas,t_murid,t_guru 
+                where t_murid_kelas.id_murid=t_murid.id_murid 
+                and t_murid_kelas.id_guru=t_guru.id_guru 
+                and t_murid_kelas.id_guru=".$id;
+        $data ['guru'] = DB::select($sql);                
+        return $data;
     }
 
     /**
@@ -65,7 +91,7 @@ class KelasController extends Controller {
      */
     public function edit($id)
     {
-        return Kelas::find($id);
+        return Muridkelas::find($id);
     }
 
     /**
@@ -77,7 +103,7 @@ class KelasController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        if(Kelas::ubah($request,$id))
+        if(Muridkelas::ubah($request,$id))
         {
             return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'],200);
         }
@@ -92,7 +118,7 @@ class KelasController extends Controller {
      */
     public function destroy($id)
     {
-        $data = Kelas::find($id);
+        $data = Muridkelas::find($id);
 
         $success=$data->delete();
 

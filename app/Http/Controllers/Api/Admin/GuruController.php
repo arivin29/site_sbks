@@ -1,39 +1,40 @@
 <?php
 
-namespace App\Http\Controllers\Api\Master;
+namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Buku;
 use App\Models\Guru;
-use App\Models\Kelas;
-use App\Models\Jurusan;
+use App\Models\Provinsi;
+use App\Models\Kabkot;
+use App\Models\Kecamatan;
+//use App\Models\Kelurahan;
 use Illuminate\Support\Facades\Route;
 use DB;
 
-class BukuController extends Controller {
+class GuruController extends Controller {
     /**
      * Create a new auth instance.
      *
      * @return void
      */
-    public function index()
+    public function index(Request $request)
     {
-        $sql = DB::table('t_buku')
-            ->join('t_guru', 't_buku.id_guru', '=', 't_guru.id_guru')
-            ->join('m_jurusan', 't_buku.id_jurusan', '=', 'm_jurusan.id_jurusan')
-            ->join('m_kelas', 't_buku.id_kelas', '=', 'm_kelas.id_kelas')
-            ->select('t_buku.*', 'm_jurusan.jurusan', 'm_kelas.kelas', 't_guru.nama_guru')->paginate(15);
+        if(strlen($request->input("nama_guru")) > 2){
+           $data = Guru::where("nama_guru","like","%".$request->input('nama_guru')."%")->paginate(15);      
+        }else{
+          $data = Guru::paginate(15);
+        }
 
-        return $sql;
+        return $data;
     }
 
     public function create()
     {
-        $data ['guru'] = Guru::select('id_guru','nama_guru')->get();
-        $data ['jurusan'] = Jurusan::select('id_jurusan','jurusan')->get();
-        $data ['kelas'] = Kelas::select('id_kelas','kelas')->get();
-
+        $data ['provinsi'] = Provinsi::select('id_provinsi','provinsi')->get();
+        $data ['kabkot'] = Kabkot::select('id_kabkot','kabkot')->get();
+        $data ['kecamatan'] = Kecamatan::select('id_kec','kecamatan')->get();
+//        $data ['kelurahan'] = Kelurahan::select('id_kelurahan','kelurahan')->get();
         return $data;
     }
 
@@ -45,7 +46,7 @@ class BukuController extends Controller {
      */
     public function store(Request $request)
     {
-        if(Buku::Insert($request))
+        if(Guru::Insert($request))
         {
             return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
@@ -60,12 +61,13 @@ class BukuController extends Controller {
      */
     public function show($id)
     {
-        $data = Buku::find($id);
-        if (is_null($data)) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Tidak ada data ditemukan!'], 400);
-        }
+        $data = Guru::find($id);
+        $data ['provinsi'] = Provinsi::find($id);
+        $data ['kabkot'] = Kabkot::find($id);
+//        $data ['kelurahan'] = Kelurahan::find($id);
+        $data ['kecamatan'] = Kecamatan::find($id);
 
-        return Response()->json($data, 200);
+         return $data;
     }
 
     /**
@@ -76,7 +78,7 @@ class BukuController extends Controller {
      */
     public function edit($id)
     {
-        return Buku::find($id);
+        return Guru::find($id);
     }
 
     /**
@@ -88,7 +90,7 @@ class BukuController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        if(Buku::ubah($request,$id))
+        if(Guru::ubah($request,$id))
         {
             return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'],200);
         }
@@ -103,7 +105,7 @@ class BukuController extends Controller {
      */
     public function destroy($id)
     {
-        $data = Buku::find($id);
+        $data = Guru::find($id);
 
         $success=$data->delete();
 
