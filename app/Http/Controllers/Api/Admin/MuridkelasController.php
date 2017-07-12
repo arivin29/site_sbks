@@ -79,7 +79,14 @@ class MuridkelasController extends Controller {
                 where t_murid_kelas.id_murid=t_murid.id_murid 
                 and t_murid_kelas.id_guru=t_guru.id_guru 
                 and t_murid_kelas.id_guru=".$id;
-        $data ['guru'] = DB::select($sql);                
+        $data ['guru'] = DB::select($sql);
+
+        $sql = "select * from t_guru_mp,m_mata_pelajaran,t_guru 
+                where t_guru_mp.id_mata_pelajaran=m_mata_pelajaran.id_mata_pelajaran 
+                and t_guru_mp.id_guru=t_guru.id_guru 
+                and t_guru_mp.id_guru=".$id;
+        $data ['gurump'] =  DB::select($sql);
+                        
         return $data;
     }
 

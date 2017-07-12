@@ -27,7 +27,6 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Master', 'prefix' => 'v
 //Guru
 Route::group(['middleware' => ['api'], 'namespace'=>'Api\Guru', 'prefix' => 'v1/guru'], function () {
 
-	Route::resource('/gurump', 'GurumpController');
 	Route::resource('/pnilai', 'NilaipengaturanController');
 	Route::resource('/muridkelas', 'MuridkelasController');
 
@@ -55,6 +54,7 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Absen', 'prefix' => 'v1
 //Admin
 Route::group(['middleware' => ['api'], 'namespace'=>'Api\Admin', 'prefix' => 'v1/admin'], function () {
 
+	Route::resource('/gurump', 'GurumpController');
 	Route::resource('/murid', 'MuridController');
 	Route::resource('/guru', 'GuruController');	
 	Route::resource('/muridkelas', 'MuridkelasController');
