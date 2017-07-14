@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Master;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Kelas;
+use App\Models\Guru;
 use Illuminate\Support\Facades\Route;
 use DB;
 
@@ -49,12 +50,7 @@ class KelasController extends Controller {
      */
     public function show($id)
     {
-        $data = Kelas::find($id);
-        if (is_null($data)) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Tidak ada data ditemukan!'], 400);
-        }
-
-        return Response()->json($data, 200);
+        //
     }
 
     /**

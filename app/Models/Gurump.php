@@ -17,7 +17,7 @@ class Gurump extends Model
    * @var array
    */
   protected $fillable = [
-    'id_mata_pelajaran', 'id_guru', 'jam_ngajar',
+    'id_mata_pelajaran', 'id_guru', 'jam_ngajar', 'hari', 'id_kelas',
   ];
 
   protected $primaryKey = 'id_guru_mp';
@@ -28,6 +28,8 @@ class Gurump extends Model
       $data->id_mata_pelajaran = $request->input('id_mata_pelajaran');
       $data->id_guru = $request->input('id_guru');
       $data->jam_ngajar = $request->input('jam_ngajar');
+      $data->hari = $request->input('hari');
+      $data->id_kelas = $request->input('id_kelas');
 
       if($data->save())
       {
@@ -45,6 +47,8 @@ class Gurump extends Model
       $data->id_mata_pelajaran = $request->input('id_mata_pelajaran');
       $data->id_guru = $request->input('id_guru');
       $data->jam_ngajar = $request->input('jam_ngajar');
+      $data->id_kelas = $request->input('id_kelas');
+        
         
       if($data->update())
       {

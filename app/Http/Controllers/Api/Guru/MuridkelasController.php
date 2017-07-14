@@ -20,13 +20,14 @@ class MuridkelasController extends Controller {
      */
     public function index(Request $request)
     {   
-        $sql = "select * from t_murid_kelas,t_murid,t_guru,m_jurusan,m_kelas 
-                where t_murid_kelas.id_murid=t_murid.id_murid 
-                and t_murid_kelas.id_guru=t_guru.id_guru 
+        $sql = "select * from t_murid_kelas,t_murid,m_jurusan,m_kelas,t_guru
+                where t_murid_kelas.id_murid=t_murid.id_murid
                 and t_murid_kelas.id_jurusan=m_jurusan.id_jurusan 
-                and t_murid_kelas.id_kelas=m_kelas.id_kelas";
+                and t_murid_kelas.id_kelas=m_kelas.id_kelas
+                and t_murid_kelas.id_guru_wali_kelas=t_guru.id_guru";
+                
+        $data = DB::select($sql);
 
-        $data =  DB::select($sql);
         return $data;
     }
 
@@ -63,31 +64,7 @@ class MuridkelasController extends Controller {
      */
     public function show($id)
     {
-        $sql = "select * from t_murid_kelas,t_murid,m_kelas 
-                where t_murid_kelas.id_murid=t_murid.id_murid 
-                and t_murid_kelas.id_kelas=m_kelas.id_kelas 
-                and t_murid_kelas.id_kelas=".$id;
-        $data ['kelas'] = DB::select($sql);
-
-        $sql= "select * from t_murid_kelas,t_murid,m_jurusan 
-                where t_murid_kelas.id_murid=t_murid.id_murid 
-                and t_murid_kelas.id_jurusan=m_jurusan.id_jurusan 
-                and t_murid_kelas.id_jurusan=".$id;
-        $data ['jurusan'] = DB::select($sql);
-
-        $sql= "select * from t_murid_kelas,t_murid,t_guru 
-                where t_murid_kelas.id_murid=t_murid.id_murid 
-                and t_murid_kelas.id_guru=t_guru.id_guru 
-                and t_murid_kelas.id_guru=".$id;
-        $data ['guru'] = DB::select($sql);
-
-        $sql = "select * from t_guru_mp,m_mata_pelajaran,t_guru 
-                where t_guru_mp.id_mata_pelajaran=m_mata_pelajaran.id_mata_pelajaran 
-                and t_guru_mp.id_guru=t_guru.id_guru 
-                and t_guru_mp.id_guru=".$id;
-        $data ['gurump'] =  DB::select($sql);
-
-        return $data;
+        //
 
     }
 
