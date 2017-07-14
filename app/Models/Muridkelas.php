@@ -17,7 +17,7 @@ class Muridkelas extends Model
    * @var array
    */
   protected $fillable = [
-    'id_murid', 'id_jurusan', 'id_kelas', 'no_absen', 'status_murid', 'tanggal_berlaku', 'id_user', 'smt', 'id_guru',
+    'id_murid', 'id_jurusan', 'id_kelas', 'no_absen', 'status_murid', 'tanggal_berlaku', 'id_user', 'smt', 'id_guru_wali_kelas',
   ];
 
   protected $primaryKey = 'id_murid_kelas';
@@ -33,7 +33,7 @@ class Muridkelas extends Model
       $data->tanggal_berlaku = $request->input('tanggal_berlaku');
 //    $data->id_user = $request->input('id_user');
       $data->smt = $request->input('smt');
-      $data->id_guru = $request->input('id_guru');
+      $data->id_guru_wali_kelas = $request->input('id_guru_wali_kelas');
 
       if($data->save())
       {
@@ -56,8 +56,8 @@ class Muridkelas extends Model
       $data->tanggal_berlaku = $request->input('tanggal_berlaku');
 //    $data->id_user = $request->input('id_user');
       $data->smt = $request->input('smt');
-      $data->id_guru = $request->input('id_guru');
-        
+      $data->id_guru_wali_kelas = $request->input('id_guru_wali_kelas');
+              
       if($data->update())
       {
           return true;

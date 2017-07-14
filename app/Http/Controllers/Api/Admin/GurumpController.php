@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Gurump;
 use App\Models\Mapel;
 use App\Models\Guru;
+use App\Models\Kelas;
 use Illuminate\Support\Facades\Route;
 use DB;
-use select;
 
 class GurumpController extends Controller {
     /**
@@ -19,7 +19,10 @@ class GurumpController extends Controller {
      */
     public function index()
     {   
-        $sql = "select * from t_guru_mp,m_mata_pelajaran,t_guru where t_guru_mp.id_mata_pelajaran=m_mata_pelajaran.id_mata_pelajaran and t_guru_mp.id_guru=t_guru.id_guru order by id_guru_mp desc";
+        $sql = "select * from t_guru_mp,m_mata_pelajaran,t_guru,m_kelas
+                where t_guru_mp.id_mata_pelajaran=m_mata_pelajaran.id_mata_pelajaran 
+                and t_guru_mp.id_guru=t_guru.id_guru
+                and t_guru_mp.id_kelas=m_kelas.id_kelas order by id_guru_mp desc";
         $data =  DB::select($sql);
         return $data;
 
@@ -29,6 +32,7 @@ class GurumpController extends Controller {
     {
         $data ['mapel'] = Mapel::select('id_mata_pelajaran','mata_pelajaran')->get();
         $data ['guru'] = Guru::select('id_guru','nama_guru')->get();
+        $data ['kelas'] = Kelas::select('id_kelas','kelas')->get();
     
         return $data;
 
