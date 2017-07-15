@@ -24,10 +24,13 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Master', 'prefix' => 'v
 	Route::resource('/kelurahan', 'KelurahanController');
 });
 
+
 //Guru
 Route::group(['middleware' => ['api'], 'namespace'=>'Api\Guru', 'prefix' => 'v1/guru'], function () {
 
-	Route::resource('/isikelas', 'IsikelasController');	
+	Route::resource('/isikelas', 'IsikelasController');
+	Route::resource('/murid_kelas', 'MuridKelas');
+
 	Route::resource('/pnilai', 'NilaipengaturanController');
 	Route::resource('/muridkelas', 'MuridkelasController');
 

@@ -1,34 +1,33 @@
 <?php
 
-namespace App\Http\Controllers\Api\Guru;
+namespace App\Http\Controllers\Api\Buku;
 
 use App\Http\Controllers\Controller;
-use App\Models\Gurump;
 use Illuminate\Http\Request;
-use App\Models\Isikelas;
-use App\Models\Kelas;
-use App\Models\Jurusan;
+use App\Models\Buku;
 use App\Models\Guru;
+use App\Models\Jurusan;
+use Illuminate\Support\Facades\Route;
 use DB;
+use select;
 
-class IsikelasController extends Controller {
+class BukuController extends Controller {
     /**
      * Create a new auth instance.
      *
      * @return void
      */
-    public function index(Request $request)
-    {   
-        $data['guru'] = Gurump::getAll($request);
-        $data['param'] = $request->input();
+    public function index()
+    {
+        $sql = "select * from t_buku,t_guru,m_jurusan where t_buku.id_guru=t_guru.id_guru and t_buku.id_jurusan=m_jurusan.id_jurusan";
+        $data =  DB::select($sql);
         return $data;
     }
 
-    public function create(Request $request)
+    public function create()
     {
-        $data ['kelas'] = Kelas::select('id_kelas','kelas')->get();
-        $data ['jurusan'] = Jurusan::select('id_jurusan','jurusan')->get();
         $data ['guru'] = Guru::select('id_guru','nama_guru')->get();
+        $data ['jurusan'] = Jurusan::select('id_jurusan','jurusan')->get();
 
         return $data;
     }
@@ -41,7 +40,11 @@ class IsikelasController extends Controller {
      */
     public function store(Request $request)
     {
-
+        if(Buku::Insert($request))
+        {
+            return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
+        }
+        return response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
     }
 
     /**
@@ -51,9 +54,13 @@ class IsikelasController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {   
-         $data['murid'] = Gurump::getByIdGuruMp($id);
-         return $data;
+    {
+        $data = Buku::find($id);
+        if (is_null($data)) {
+            return Response()->json(['status' => 'false', 'pesan' => 'Tidak ada data ditemukan!'], 400);
+        }
+
+        return Response()->json($data, 200);
     }
 
     /**
@@ -64,7 +71,7 @@ class IsikelasController extends Controller {
      */
     public function edit($id)
     {
-        return Isikelas::find($id);
+        return Buku::find($id);
     }
 
     /**
@@ -76,7 +83,7 @@ class IsikelasController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        if(Isikelas::ubah($request,$id))
+        if(Buku::ubah($request,$id))
         {
             return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'],200);
         }
@@ -91,7 +98,7 @@ class IsikelasController extends Controller {
      */
     public function destroy($id)
     {
-        $data = Isikelas::find($id);
+        $data = Buku::find($id);
 
         $success=$data->delete();
 

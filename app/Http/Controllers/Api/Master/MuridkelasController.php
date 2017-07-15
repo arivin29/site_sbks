@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\Api\Guru;
 
 use App\Http\Controllers\Controller;
-use App\Models\Gurump;
 use Illuminate\Http\Request;
-use App\Models\Isikelas;
-use App\Models\Kelas;
-use App\Models\Jurusan;
+use App\Models\Muridkelas;
+use App\Models\Murid;
 use App\Models\Guru;
+use App\Models\Jurusan;
+use App\Models\Kelas;
+use Illuminate\Support\Facades\Route;
 use DB;
 
-class IsikelasController extends Controller {
+class MuridkelasController extends Controller {
     /**
      * Create a new auth instance.
      *
@@ -19,16 +20,23 @@ class IsikelasController extends Controller {
      */
     public function index(Request $request)
     {   
-        $data['guru'] = Gurump::getAll($request);
-        $data['param'] = $request->input();
+        $sql = "select * from t_murid_kelas,t_murid,m_jurusan,m_kelas,t_guru
+                where t_murid_kelas.id_murid=t_murid.id_murid
+                and t_murid_kelas.id_jurusan=m_jurusan.id_jurusan 
+                and t_murid_kelas.id_kelas=m_kelas.id_kelas
+                and t_murid_kelas.id_guru_wali_kelas=t_guru.id_guru";
+                
+        $data = DB::select($sql);
+
         return $data;
     }
 
-    public function create(Request $request)
+    public function create()
     {
-        $data ['kelas'] = Kelas::select('id_kelas','kelas')->get();
-        $data ['jurusan'] = Jurusan::select('id_jurusan','jurusan')->get();
+        $data ['murid'] = Murid::select('id_murid','nama_murid')->get();
         $data ['guru'] = Guru::select('id_guru','nama_guru')->get();
+        $data ['jurusan'] = Jurusan::select('id_jurusan','jurusan')->get();
+        $data ['kelas'] = Kelas::select('id_kelas','kelas')->get();
 
         return $data;
     }
@@ -41,7 +49,11 @@ class IsikelasController extends Controller {
      */
     public function store(Request $request)
     {
-
+        if(Muridkelas::Insert($request))
+        {
+            return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
+        }
+        return response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
     }
 
     /**
@@ -51,9 +63,9 @@ class IsikelasController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {   
-         $data['murid'] = Gurump::getByIdGuruMp($id);
-         return $data;
+    {
+        //
+
     }
 
     /**
@@ -64,7 +76,7 @@ class IsikelasController extends Controller {
      */
     public function edit($id)
     {
-        return Isikelas::find($id);
+        return Muridkelas::find($id);
     }
 
     /**
@@ -76,7 +88,7 @@ class IsikelasController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        if(Isikelas::ubah($request,$id))
+        if(Muridkelas::ubah($request,$id))
         {
             return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'],200);
         }
@@ -91,7 +103,7 @@ class IsikelasController extends Controller {
      */
     public function destroy($id)
     {
-        $data = Isikelas::find($id);
+        $data = Muridkelas::find($id);
 
         $success=$data->delete();
 

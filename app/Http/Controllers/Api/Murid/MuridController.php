@@ -1,34 +1,35 @@
 <?php
 
-namespace App\Http\Controllers\Api\Guru;
+namespace App\Http\Controllers\Api\Murid;
 
 use App\Http\Controllers\Controller;
-use App\Models\Gurump;
 use Illuminate\Http\Request;
-use App\Models\Isikelas;
-use App\Models\Kelas;
-use App\Models\Jurusan;
-use App\Models\Guru;
+use App\Models\Murid;
+use App\Models\Nilai;
+use App\Models\Pendidikan;
+use App\Models\Pekerjaan;
+use Illuminate\Support\Facades\Route;
 use DB;
+use select;
 
-class IsikelasController extends Controller {
+class MuridController extends Controller {
     /**
      * Create a new auth instance.
      *
      * @return void
      */
     public function index(Request $request)
-    {   
-        $data['guru'] = Gurump::getAll($request);
-        $data['param'] = $request->input();
-        return $data;
+    {
+//        $sql = DB::table('t_murid')
+//            ->select('t_murid.*', 't_murid.nama_murid')->paginate(5);
+//        return Murid::all();
+//        return $sql;
     }
 
-    public function create(Request $request)
+    public function create()
     {
-        $data ['kelas'] = Kelas::select('id_kelas','kelas')->get();
-        $data ['jurusan'] = Jurusan::select('id_jurusan','jurusan')->get();
-        $data ['guru'] = Guru::select('id_guru','nama_guru')->get();
+        $data ['pendidikan'] = Pendidikan::select('id_pendidikan','pendidikan')->get();
+        $data ['pekerjaan'] = Pekerjaan::select('id_pekerjaan','pekerjaan')->get();
 
         return $data;
     }
@@ -41,7 +42,11 @@ class IsikelasController extends Controller {
      */
     public function store(Request $request)
     {
-
+        if(Murid::Insert($request))
+        {
+            return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
+        }
+        return response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
     }
 
     /**
@@ -51,9 +56,9 @@ class IsikelasController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {   
-         $data['murid'] = Gurump::getByIdGuruMp($id);
-         return $data;
+    {
+        $data = Murid::find($id);
+        return Response()->json($data);
     }
 
     /**
@@ -64,7 +69,7 @@ class IsikelasController extends Controller {
      */
     public function edit($id)
     {
-        return Isikelas::find($id);
+        return Murid::find($id);
     }
 
     /**
@@ -76,7 +81,7 @@ class IsikelasController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        if(Isikelas::ubah($request,$id))
+        if(Murid::ubah($request,$id))
         {
             return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'],200);
         }
@@ -91,7 +96,7 @@ class IsikelasController extends Controller {
      */
     public function destroy($id)
     {
-        $data = Isikelas::find($id);
+        $data = Murid::find($id);
 
         $success=$data->delete();
 

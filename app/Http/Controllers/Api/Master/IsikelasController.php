@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api\Guru;
 
 use App\Http\Controllers\Controller;
-use App\Models\Gurump;
 use Illuminate\Http\Request;
 use App\Models\Isikelas;
 use App\Models\Kelas;
 use App\Models\Jurusan;
 use App\Models\Guru;
+use Illuminate\Support\Facades\Route;
 use DB;
 
 class IsikelasController extends Controller {
@@ -17,11 +17,14 @@ class IsikelasController extends Controller {
      *
      * @return void
      */
-    public function index(Request $request)
+    public function index()
     {   
-        $data['guru'] = Gurump::getAll($request);
-        $data['param'] = $request->input();
-        return $data;
+        $sql = "select * from t_isi_kelas,m_kelas,m_jurusan,t_guru
+                where t_isi_kelas.id_kelas=m_kelas.id_kelas
+                and t_isi_kelas.id_jurusan=m_jurusan.id_jurusan
+                and t_isi_kelas.id_guru_wali_kelas=t_guru.id_guru";
+        $data =  DB::select($sql);
+        return $data; 
     }
 
     public function create(Request $request)
@@ -41,7 +44,11 @@ class IsikelasController extends Controller {
      */
     public function store(Request $request)
     {
-
+        if(Isikelas::Insert($request))
+        {
+            return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
+        }
+        return response()->json(['status' => 'false', 'pesan' => 'Gagal tambah data!'], 400);
     }
 
     /**
@@ -52,8 +59,36 @@ class IsikelasController extends Controller {
      */
     public function show($id)
     {   
-         $data['murid'] = Gurump::getByIdGuruMp($id);
-         return $data;
+        $sql = "select * from t_murid_kelas,m_kelas,m_jurusan,t_guru,t_murid
+                where t_murid_kelas.id_kelas=m_kelas.id_kelas
+                and t_murid_kelas.id_jurusan=m_jurusan.id_jurusan
+                and t_murid_kelas.id_guru_wali_kelas=t_guru.id_guru
+                and t_murid_kelas.id_murid=t_murid.id_murid
+                and t_murid_kelas.id_kelas=".$id;
+        $data ['kelas'] =  DB::select($sql);
+
+        $sql = "select * from t_nilai,t_murid,m_mata_pelajaran,m_kelas,t_guru
+                where t_nilai.id_murid=t_murid.id_murid
+                and t_nilai.id_mata_pelajaran=m_mata_pelajaran.id_mata_pelajaran
+                and t_nilai.id_kelas=m_kelas.id_kelas
+                and t_nilai.id_guru=t_guru.id_guru
+                and t_nilai.id_kelas=".$id;
+        $data ['nilai'] =  DB::select($sql);
+
+        $sql = "select * from t_guru_mp,m_mata_pelajaran,t_guru,m_kelas 
+                where t_guru_mp.id_mata_pelajaran=m_mata_pelajaran.id_mata_pelajaran 
+                and t_guru_mp.id_guru=t_guru.id_guru
+                and t_guru_mp.id_kelas=m_kelas.id_kelas 
+                and t_guru_mp.id_kelas=".$id;
+        $data ['gurump'] =  DB::select($sql);
+
+        $sql= "select * from t_murid_kelas,t_murid,m_jurusan 
+                where t_murid_kelas.id_murid=t_murid.id_murid 
+                and t_murid_kelas.id_jurusan=m_jurusan.id_jurusan 
+                and t_murid_kelas.id_jurusan=".$id;
+        $data ['jurusan'] = DB::select($sql);
+
+        return $data; 
     }
 
     /**

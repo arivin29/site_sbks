@@ -11,7 +11,7 @@ use App\Models\Jurusan;
 use App\Models\Guru;
 use DB;
 
-class IsikelasController extends Controller {
+class  NilaiKelas extends Controller {
     /**
      * Create a new auth instance.
      *
@@ -19,7 +19,7 @@ class IsikelasController extends Controller {
      */
     public function index(Request $request)
     {   
-        $data['guru'] = Gurump::getAll($request);
+        $data['guru'] = Gurump::GetById($request);
         $data['param'] = $request->input();
         return $data;
     }
