@@ -2,43 +2,42 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
-use App\Helper\Variable;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Muridkelas;
+use App\Models\Nilai;
 use App\Models\Murid;
+//use App\Models\Jenisnilai;
+use App\Models\Mapel;
 use App\Models\Guru;
-use App\Models\Jurusan;
 use App\Models\Kelas;
 use Illuminate\Support\Facades\Route;
 use DB;
 
-class MuridkelasController extends Controller {
+class sds extends Controller {
     /**
      * Create a new auth instance.
      *
      * @return void
      */
-    public function index(Request $request)
-    {   
-        $data['data'] = Muridkelas::getAll($request);
-        $data['param'] = $request->input();
-
-        $data['kelas'] = Variable::kelas();
-        $data['paralel'] = Variable::paralel();
-        $data['jurusan'] = Jurusan::all();
-        $data['smt'] = Variable::smt_out();
-        $data['config_smt'] = Variable::getSemester();
-
+    public function index()
+    {
+        $sql = "select * from t_nilai,t_murid,m_mata_pelajaran,t_guru,m_kelas 
+                where t_nilai.id_murid=t_murid.id_murid 
+                and t_nilai.id_mata_pelajaran=m_mata_pelajaran.id_mata_pelajaran
+                and t_nilai.id_guru=t_guru.id_guru
+                and t_nilai.id_kelas=m_kelas.id_kelas";
+        $data =  DB::select($sql);
         return $data;
+
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        $data ['guru'] = Guru::all();
-        $data ['jurusan'] = Jurusan::all();
-        $data ['kelas'] = Variable::kelas();
-        $data ['paralel'] = Variable::paralel();
+        $data ['murid'] = Murid::select('id_murid','nama_murid')->get();
+//        $data ['jn'] = Jenisnilai::select('id_jenis_nilai','jenis')->get();
+        $data ['guru'] = Guru::select('id_guru','nama_guru')->get();
+        $data ['mapel'] = Mapel::select('id_mata_pelajaran','mata_pelajaran')->get();
+        $data ['kelas'] = Kelas::select('id_kelas','kelas')->get();
 
         return $data;
     }
@@ -51,7 +50,7 @@ class MuridkelasController extends Controller {
      */
     public function store(Request $request)
     {
-        if(Muridkelas::Insert($request))
+        if(Nilai::Insert($request))
         {
             return response()->json(['status' => 'true', 'pesan' => 'Berhasil tambah data!'], 200);
         }
@@ -66,7 +65,13 @@ class MuridkelasController extends Controller {
      */
     public function show($id)
     {
-        $data['kelas'] = Muridkelas::getByMurid($id);
+        $sql = "select * from t_nilai,t_murid,m_mata_pelajaran,t_guru,m_kelas 
+                where t_nilai.id_murid=t_murid.id_murid 
+                and t_nilai.id_mata_pelajaran=m_mata_pelajaran.id_mata_pelajaran
+                and t_nilai.id_guru=t_guru.id_guru
+                and t_nilai.id_kelas=m_kelas.id_kelas
+                and t_nilai.id_nilai=".$id;
+        $data =  DB::select($sql);
         return $data;
     }
 
@@ -78,7 +83,7 @@ class MuridkelasController extends Controller {
      */
     public function edit($id)
     {
-        return Muridkelas::find($id);
+        return Nilai::find($id);
     }
 
     /**
@@ -90,7 +95,7 @@ class MuridkelasController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        if(Muridkelas::ubah($request,$id))
+        if(Nilai::ubah($request,$id))
         {
             return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'],200);
         }
@@ -105,9 +110,11 @@ class MuridkelasController extends Controller {
      */
     public function destroy($id)
     {
-        $data = Muridkelas::find($id);
-        if ($data->is_loacked == 0) {
-            $data->delete();
+        $data = Nilai::find($id);
+
+        $success=$data->delete();
+
+        if (!$success) {
             return Response()->json(['status' => 'false', 'pesan' => 'Gagal hapus data!'], 400);
         }
 

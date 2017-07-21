@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api\Master;
 
+use App\Helper\Variable;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Mapel;
 use App\Models\Jurusan;
 use App\Models\Kelas;
-use Illuminate\Support\Facades\Route;
 use DB;
 
 class MapelController extends Controller {
@@ -16,20 +16,20 @@ class MapelController extends Controller {
      *
      * @return void
      */
-   public function index()
+    public function index()
     {
-        $sql = DB::table('m_mata_pelajaran')
-            ->join('m_jurusan', 'm_mata_pelajaran.id_jurusan', '=', 'm_jurusan.id_jurusan')
-            ->join('m_kelas', 'm_mata_pelajaran.id_kelas', '=', 'm_kelas.id_kelas')
-            ->select('m_mata_pelajaran.*', 'm_jurusan.jurusan', 'm_kelas.kelas')->paginate(15);
+        $sql = "SELECT * from m_mata_pelajaran a,
+                      m_jurusan b
+                    WHERE a.id_jurusan=b.id_jurusan";
 
-        return $sql;
+        $data['data'] = DB::select($sql);
+        return $data;
     }
 
     public function create()
     {
         $data ['jurusan'] = Jurusan::select('id_jurusan','jurusan')->get();
-        $data ['kelas'] = Kelas::select('id_kelas','kelas')->get();
+        $data ['kelas'] = Variable::kelas();
 
         return $data;
     }

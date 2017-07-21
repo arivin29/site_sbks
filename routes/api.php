@@ -28,11 +28,10 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Master', 'prefix' => 'v
 //Guru
 Route::group(['middleware' => ['api'], 'namespace'=>'Api\Guru', 'prefix' => 'v1/guru'], function () {
 
-	Route::resource('/isikelas', 'IsikelasController');
-	Route::resource('/murid_kelas', 'MuridKelas');
-
-	Route::resource('/pnilai', 'NilaipengaturanController');
-	Route::resource('/muridkelas', 'MuridkelasController');
+	Route::resource('/kelas', 'Kelas_Cont');
+	Route::resource('/murid', 'Murid_Cont');
+	Route::resource('/nilai', 'Nilai_Cont');
+	Route::resource('/absensi', 'Absensi_cont');
 
 });
 
@@ -56,8 +55,8 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Absen', 'prefix' => 'v1
 Route::group(['middleware' => ['api'], 'namespace'=>'Api\Admin', 'prefix' => 'v1/admin'], function () {
 
 	Route::resource('/isikelas', 'IsikelasController');
-	Route::resource('/muridkelas', 'MuridkelasController');
-	Route::resource('/nilai', 'NilaiController');
+	Route::resource('/murid_kelas', 'MuridkelasController');
+	Route::resource('/murid_mp', 'MuridMataPelajaranCont');
 	Route::resource('/murid', 'MuridController');
 	Route::resource('/gurump', 'GurumpController');
 	Route::resource('/guru', 'GuruController');	

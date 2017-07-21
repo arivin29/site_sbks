@@ -20,12 +20,7 @@ class GuruController extends Controller {
      */
     public function index(Request $request)
     {
-        if(strlen($request->input("nama_guru")) > 2){
-           $data = Guru::where("nama_guru","like","%".$request->input('nama_guru')."%")->paginate(15);      
-        }else{
-          $data = Guru::paginate(15);
-        }
-
+        $data['data'] = Guru::getAll($request);
         return $data;
     }
 
@@ -61,7 +56,7 @@ class GuruController extends Controller {
      */
     public function show($id)
     {
-        $data = Guru::find($id);
+        $data['guru'] = Guru::find($id);
         $data ['provinsi'] = Provinsi::find($id);
         $data ['kabkot'] = Kabkot::find($id);
 //        $data ['kelurahan'] = Kelurahan::find($id);

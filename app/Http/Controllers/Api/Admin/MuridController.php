@@ -21,12 +21,9 @@ class MuridController extends Controller {
      * @return void
      */
     public function index(Request $request)
-    {   
-        if(strlen($request->input("nama_murid")) > 2){
-           $data = Murid::where("nama_murid","like","%".$request->input('nama_murid')."%")->paginate(15);      
-        }else{
-          $data = Murid::paginate(15);
-        }
+    {
+
+        $data['murid'] = Murid::getAll($request);
 
         return $data;
     }
@@ -66,14 +63,7 @@ class MuridController extends Controller {
      */
     public function show($id)
     {
-        $data = Murid::find($id);
-        $data ['pendidikan'] = Pendidikan::find($id);
-        $data ['pekerjaan'] = Pekerjaan::find($id);
-        $data ['provinsi'] = Provinsi::find($id);
-        $data ['kabkot'] = Kabkot::find($id);
-//        $data ['kelurahan'] = Kelurahan::find($id);
-        $data ['kecamatan'] = Kecamatan::find($id);
-
+        $data['murid'] = Murid::getById($id);
          return $data;
     }
 
@@ -86,6 +76,12 @@ class MuridController extends Controller {
     public function edit($id)
     {
         return Murid::find($id);
+        $data ['pendidikan'] = Pendidikan::find($id);
+        $data ['pekerjaan'] = Pekerjaan::find($id);
+        $data ['provinsi'] = Provinsi::find($id);
+        $data ['kabkot'] = Kabkot::find($id);
+//        $data ['kelurahan'] = Kelurahan::find($id);
+        $data ['kecamatan'] = Kecamatan::find($id);
     }
 
     /**

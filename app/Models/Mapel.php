@@ -2,6 +2,8 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 /**
  * Model item ads
  */
@@ -57,6 +59,14 @@ class Mapel extends Model
       {
           return false;
       }
+   }
+  protected static function getAll()
+  {
+      $sql= "Select * from m_mata_pelajaran a,
+              m_jurusan b 
+              WHERE a.id_jurusan=b.id_jurusan";
+
+      return DB::select($sql);
    }
 
 }

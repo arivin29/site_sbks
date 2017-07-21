@@ -53,7 +53,7 @@ class Absen extends Model
       $data->toleransi_telat = $request->input('toleransi_telat');
       $data->max_cuti = $request->input('max_cuti');
       $data->max_izin = $request->input('max_izin');
-      
+
       if($data->update())
       {
           return true;

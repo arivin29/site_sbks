@@ -2,6 +2,8 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 /**
  * Model item ads
  */
@@ -16,9 +18,7 @@ class Guru extends Model
    *
    * @var array
    */
-  protected $fillable = [
-    'nip', 'nuptk', 'nama_guru', 'nik_ktp', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'nama_ibu', 'status_pegawai', 'golongan', 'tmk_sk_cpns', 'tmk_sk_awal', 'tmk_sk_berakhir', 'alamat', 'id_provinsi', 'id_kabkot', 'id_kec', 'id_kelurahan', 'no_hp', 'agama', 'kode_pos', 'status_guru',
-  ];
+
 
   protected $primaryKey = 'id_guru';
 
@@ -92,6 +92,32 @@ class Guru extends Model
       {
           return false;
       }
+  }
+
+  protected static function getAll($request)
+  {
+      $sql= " Select * from t_guru WHERE id_guru > 0 ";
+
+
+      $param = $request->input();
+      if(isset($param['nip']))
+      {
+          $sql.=" and nip like '%".$param['nip']."%'";
+      }
+
+      if(isset($param['nama_guru']))
+      {
+          $sql.=" and nama_guru like '%".$param['nama_guru']."%'";
+      }
+
+      if(isset($param['status_guru']))
+      {
+          $sql.=" and status_guru = '".$param['status_guru']."'";
+      }
+
+      $sql.=" Order by nama_guru ASC";
+      return DB::select($sql);
+
   }
 
 }

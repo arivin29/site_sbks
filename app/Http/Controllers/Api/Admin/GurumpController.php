@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
+use App\Helper\Variable;
 use App\Http\Controllers\Controller;
+use App\Models\Jurusan;
 use Illuminate\Http\Request;
 use App\Models\Gurump;
 use App\Models\Mapel;
@@ -17,23 +19,20 @@ class GurumpController extends Controller {
      *
      * @return void
      */
-    public function index()
+    public function index(Request $request)
     {   
-        $sql = "select * from t_guru_mp,m_mata_pelajaran,t_guru,m_kelas
-                where t_guru_mp.id_mata_pelajaran=m_mata_pelajaran.id_mata_pelajaran 
-                and t_guru_mp.id_guru=t_guru.id_guru
-                and t_guru_mp.id_kelas=m_kelas.id_kelas order by id_guru_mp desc";
-        $data =  DB::select($sql);
+        $data['gurump'] = Gurump::getByguru($request);
         return $data;
 
     }
 
     public function create()
     {
-        $data ['mapel'] = Mapel::select('id_mata_pelajaran','mata_pelajaran')->get();
-        $data ['guru'] = Guru::select('id_guru','nama_guru')->get();
-        $data ['kelas'] = Kelas::select('id_kelas','kelas')->get();
-    
+        $data ['mata_pelajaran'] = Mapel::getAll();
+        $data ['kelas'] = Variable::kelas();
+        $data ['paralel'] = Variable::paralel();
+        $data ['jurusan'] = Jurusan::all();
+
         return $data;
 
     }
