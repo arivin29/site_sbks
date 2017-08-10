@@ -70,7 +70,8 @@ class  Nilai_Cont extends Controller
      */
     public function edit($id)
     {
-        return Isikelas::find($id);
+        $data['nilai'] = Nilai::preeEdit($id);
+        return json_encode($data,JSON_NUMERIC_CHECK);
     }
 
     /**
@@ -82,7 +83,15 @@ class  Nilai_Cont extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (Nilai::saveNilai($request, $id)) {
+        if($request->input('type')=='update')
+        {
+            Nilai::UpdatedNilai($request);
+
+            return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'], 200);
+        }
+
+        if ( $request->input('nilai')) {
+            Nilai::saveNilai($request, $id);
             return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'], 200);
         }
 

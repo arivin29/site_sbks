@@ -78,7 +78,9 @@ class Nilai extends Model
               a.is_remedial,
               a.batas_remedial,
               a.smt, 
-              a.tanggal_rekap
+              a.tanggal_rekap,
+              a.id_nilai
+              
             FROM t_nilai a,
               t_guru_mp b,
               m_jenis_nilai c
@@ -90,6 +92,33 @@ class Nilai extends Model
             AND a.smt=".Variable::getCurrentSmt()."
             ORDER BY a.tanggal_rekap ASC";
         return DB::select($sql);
+
+    }
+
+    protected static function preeEdit($id)
+    {
+        $sql="SELECT
+              a.*,
+              b.jenis,
+              c.nama_murid,
+              c.nis
+            from t_nilai a,
+              m_jenis_nilai b,
+              t_murid c
+            WHERE a.id_jenis_nilai=b.id_jenis_nilai
+            and a.id_murid=c.id_murid
+            and a.id_nilai=".$id;
+        $data = DB::select($sql);
+        return $data[0];
+    }
+
+    protected static function UpdatedNilai($request)
+    {
+        $data = Nilai::find($request->input('id_nilai'));
+        $data->nilai = $request->input('nilai') < 1 ?  $request->input('nilai_akhir') : $request->input('nilai');
+        $data->nilai_akhir = $request->input('nilai_akhir');
+        $data->save();
+        return $data;
 
     }
 
