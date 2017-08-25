@@ -24,33 +24,42 @@ class  Absensi_cont extends Controller
      */
     public function index(Request $request)
     {
-        $id = $request->input('id_guru_mp');
-        $get_murid = Gurump::getMuridByIdGuruMp($id);
+        if($request->input('rekap'))
+        {
+            $id = $request->input('id_guru_mp');
+            $get_murid = Gurump::getMuridByIdGuruMp($id);
 
-        $murids = [];
-        $total = 0;
-        foreach ($get_murid as $x) {
+            $murids = [];
+            $total = 0;
+            foreach ($get_murid as $x) {
 
-            $get_nilai = AbsenKelas::getByIdGuruMp($x->id_guru_mp,$x->id_murid);
-            $absens = [];
-            foreach ($get_nilai as $y)
-            {
-                $absens[] = $y;
+                $get_nilai = AbsenKelas::getByIdGuruMp($x->id_guru_mp,$x->id_murid);
+                $absens = [];
+                foreach ($get_nilai as $y)
+                {
+                    $absens[] = $y;
+                }
+                $total = count($absens);
+                $x->absen = $absens;
+                $murids[] = $x;
+
             }
-            $total = count($absens);
-            $x->absen = $absens;
-            $murids[] = $x;
+            $data['total'] = $total;
+            $data['absensis'] = $murids;
+        }
+        else
+        {
+            $id = $request->input('id_guru_mp');
+            $data['absensis'] = AbsenKelas::getByIdGuruMp($id);
 
         }
-        $data['total'] = $total;
-        $data['absensis'] = $murids;
 
         return $data;
     }
 
     public function create(Request $request)
     {
-        $data['murid_absensi'] = AbsenKelas::preeAdd($request);
+        $data = AbsenKelas::preeAdd($request);
         return $data;
     }
 
@@ -74,7 +83,7 @@ class  Absensi_cont extends Controller
      */
     public function edit($id)
     {
-        return Isikelas::find($id);
+
     }
 
     /**

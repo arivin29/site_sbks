@@ -10,6 +10,7 @@ namespace App\Helper;
 use DB;
 use Auth;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 
 class Query
@@ -24,6 +25,28 @@ class Query
 
         return $sql;
 
+    }
+
+    public static $Perpage = 100;
+
+    public static function getSite()
+    {
+
+        return (Object)array("id"=> 121, "code_site"=>"JKT");
+
+    }
+
+    public static function getPosisi()
+    {
+
+        return  (object)array("id"=> 1, "position"=>"MPC");
+    }
+
+    public static function getUser()
+    {
+        return JWTAuth::toUser(JWTAuth::getToken());
+
+        return  (object)array("id"=> 1, "name"=>"Mumahammad Arifin");
     }
 
 

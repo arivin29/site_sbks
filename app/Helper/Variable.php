@@ -23,17 +23,23 @@ class Variable
 
     }
 
+    public static function getLeveluser()
+    {
+
+        return ['guru','murid','ortu'];
+
+    }
     public static function paralel()
     {
 
-        return ['A','B','C','D','EX 1','EX 2'];
+        return ['A','B','C','D'];
 
     }
 
     public static function getSemester()
     {
 
-        return 0; //->semester genap
+        return 1; //->semester genap
 
     }
 

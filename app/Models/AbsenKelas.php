@@ -22,58 +22,90 @@ class AbsenKelas extends Model
 
     protected static function preeAdd($request)
     {
+
+        $sql = "Select * from t_absen_kelas WHERE validasi=0 
+                    and id_guru_mp=" . $request->input('id_guru_mp') . " ";
+
+        $cek = DB::select($sql);
+
+        if(count($cek) < 1)
+        {
+            $data = new AbsenKelas();
+            $data->id_guru_mp =  $request->input('id_guru_mp');
+            $data->save();
+        }
+        $absen = DB::select($sql)[0];
+
         $get_data_murid = Gurump::getMuridByIdGuruMp($request->input('id_guru_mp'));
         //Delete Sampah
-        DB::delete("Delete from t_absen_kelas WHERE validasi=0 and id_guru_mp=" . $request->input('id_guru_mp') . " ");
+        DB::delete("Delete from t_absen_kelas_detail WHERE id_absen_kelas= ".$absen->id_absen_kelas);
 
+        //insert ka
         foreach ($get_data_murid as $x) {
-            $data = new AbsenKelas();
+            $data = new AbsenKelasDetail();
             $data->id_murid = $x->id_murid;
-            $data->id_guru_mp = $x->id_guru_mp;
+            $data->id_absen_kelas = $absen->id_absen_kelas;
             $data->smt = Variable::getCurrentSmt();
-            $data->validasi = 0;
             $data->save();
         }
 
-        $sql = "select a.*,b.nama_murid,b.nis from t_absen_kelas a, t_murid b
+        $sql = "select a.*,b.nama_murid,b.nis 
+            from t_absen_kelas_detail a, t_murid b
             WHERE a.id_murid = b.id_murid 
-            and a.validasi=0 
-            and a.id_guru_mp=" . $request->input('id_guru_mp') . " ";
+            and a.id_absen_kelas=".$absen->id_absen_kelas."  ";
 
-        $data = DB::select($sql);
+        $data=[];
+        $data['absen'] = $absen;
+        $data['absen_murid'] = DB::select($sql);
         return $data;
     }
 
     protected static function saveAbsen($request, $id)
     {
-        $absen = $request->input('absensi');
-        $param = $request->input('param');
+        $absen = $request->input('absen_murid');
+        $param = $request->input('absen');
 
         for ($a = 0; $a < count($absen); $a++) {
 
-            $data = AbsenKelas::find($absen[$a]['id_absen_kelas']);
-            $data->tanggal_rekap = $param['tanggal_rekap'];
+            $data = AbsenKelasDetail::find($absen[$a]['id_absen_kelas_detail']);
             $data->kehadiran = $absen[$a]['kehadiran'];
             $data->alasan = isset($absen[$a]['alasan']) ? $absen[$a]['alasan'] :'';
-            $data->validasi = 1;
             $data->save();
         }
+
+        $absen = AbsenKelas::find($param['id_absen_kelas']);
+        if(isset($param['tanggal_rekap']))
+        {
+            $absen->tanggal_rekap = $param['tanggal_rekap'];
+
+        }
+        else
+        {
+            $absen->tanggal_rekap = date('Y-m-d');
+        }
+
+        $absen->validasi = 1;
+        $absen->save();
 
         return true;
     }
 
-    protected static function getByIdGuruMp($id_guru_mp, $id_murid)
+    protected static function getByIdGuruMp($id_guru_mp)
     {
-        $sql = "SELECT
-                  a.*
-                FROM t_absen_kelas a,
-                  t_guru_mp b
+        $sql = "SELECT count(*),
+                  max(a.id_guru_mp) as id_guru_mp,
+                  max(a.id_absen_kelas) as id_absen_kelas,
+                  max(a.tanggal_rekap) as tanggal_rekap,
+                  sum( CASE when b.kehadiran =1 then 1 else 0 END ) as hadir,
+                  sum( CASE when b.kehadiran =0 then 1 else 0 END ) as alfa,
+                  count(b.kehadiran) as total
                 
-                WHERE a.id_guru_mp=b.id_guru_mp 
-            AND a.id_murid=$id_murid
-            AND b.id_guru_mp=$id_guru_mp
-            AND a.smt=" . Variable::getCurrentSmt() . "
-            ORDER BY a.tanggal_rekap ASC";
+                FROM t_absen_kelas a,
+                  t_absen_kelas_detail b
+                WHERE a.id_absen_kelas=b.id_absen_kelas
+                and a.validasi > 0
+                AND a.id_guru_mp=$id_guru_mp
+                GROUP BY a.id_absen_kelas";
         return DB::select($sql);
 
     }

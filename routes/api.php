@@ -4,7 +4,37 @@ use Illuminate\Http\Request;
 
 header('Access-Control-Allow-Origin:*');
 header('Access-Control-Allow-Methods: PUT, GET, POST, DELETE');
-header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
+date_default_timezone_set('Asia/Jakarta');
+
+Route::auth();
+
+Route::group(['middleware' => ['api'],'prefix' => 'v1'], function () {
+
+    Route::get('dam_user', 'Api\AuthCont@getRole');
+    Route::post('login', 'Api\AuthCont@authenticate');
+    Route::post('online/login', 'Api\AuthCont@authenticateOnline');
+    Route::post('refresh', 'Api\AuthCont@refresh');
+    Route::get('user/me', 'Api\AuthCont@getAuthenticatedUser');
+
+});
+
+
+Route::group(['middleware' => ['jwt.auth'],'prefix' => 'v2'], function () {
+
+    Route::get('/', function (Request $request)
+    {
+        return Auth::id();
+    });
+
+});
+
+Route::group(['middleware' => ['web'],'namespace'=>'Api\Acl', 'prefix' => 'v1/acl'], function () {
+
+    Route::resource('users','Users_cont');
+    Route::resource('akses','Akses_cont');
+
+});
 
 
 //Master
@@ -32,6 +62,7 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Guru', 'prefix' => 'v1/
 	Route::resource('/murid', 'Murid_Cont');
 	Route::resource('/nilai', 'Nilai_Cont');
 	Route::resource('/absensi', 'Absensi_cont');
+	Route::resource('/absensi_detail', 'Absensi_detail_cont');
 
 });
 

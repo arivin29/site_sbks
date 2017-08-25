@@ -87,7 +87,7 @@ class Muridkelas extends Model
                     SELECT
                       count(*),
                       max(x.smt) as smt,
-                      max(x.id_murid) as id_murid,
+                      max(x.id_murid) as id_murid_2,
                       max(x.kelas) as kelas,
                       max(x.id_jurusan) as id_jurusan,
                       max(y.jurusan) as jurusan,
@@ -103,7 +103,7 @@ class Muridkelas extends Model
                       WHERE x.id_jurusan=y.id_jurusan
                     GROUP BY id_murid
                 
-                    ) b on a.id_murid=b.id_murid
+                    ) b on a.id_murid=b.id_murid_2
                 WHERE a.id_murid > 0 
                 
                  ";
