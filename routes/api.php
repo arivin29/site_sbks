@@ -29,6 +29,11 @@ Route::group(['middleware' => ['jwt.auth'],'prefix' => 'v2'], function () {
 
 });
 
+Route::group(['middleware' => ['web'],'namespace'=>'Api\Umum', 'prefix' => 'v1/umum'], function () {
+
+    Route::resource('kalender','Kalender_Cont');
+
+});
 Route::group(['middleware' => ['web'],'namespace'=>'Api\Acl', 'prefix' => 'v1/acl'], function () {
 
     Route::resource('users','Users_cont');
