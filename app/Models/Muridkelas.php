@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use App\Helper\Query;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -124,11 +125,11 @@ class Muridkelas extends Model
             $sql .= " and status_murid = 'ON'";
         }
 
-        if (isset($param['kelas_paralel'])) {
-            $sql .= " and kelas_paralel = '" . $param['kelas_paralel'] . "'";
+        if (isset($param['parelel'])) {
+            $sql .= " and kelas_paralel = '" . $param['parelel'] . "'";
         }
-        if (isset($param['id_jurusan'])) {
-            $sql .= " and id_jurusan = '" . $param['id_jurusan'] . "'";
+        if (isset($param['jurusan'])) {
+            $sql .= " and id_jurusan = '" . $param['jurusan'] . "'";
         }
         if (isset($param['kelas'])) {
             $sql .= " and kelas = '" . $param['kelas'] . "'";
@@ -138,7 +139,7 @@ class Muridkelas extends Model
         }
 
         $sql .= " Order by nama_murid ASC";
-        return DB::select($sql);
+        return Query::pagination($sql,$request->input('page'));
     }
 
     protected static function getByMurid($id)

@@ -23,18 +23,19 @@ class Kalender_Cont extends Controller {
     {
         $data = [];
         $months = array(
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
+
             'July ',
             'August',
             'September',
             'October',
             'November',
             'December',
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June'
         );
 
 
@@ -48,7 +49,6 @@ class Kalender_Cont extends Controller {
 
         $data['kalender'] = $data;
         return $data;
-
     }
 
 

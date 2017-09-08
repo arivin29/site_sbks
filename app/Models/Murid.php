@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use App\Helper\Query;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -109,8 +110,10 @@ class Murid extends Model
             $sql .= " and status_murid = 'ON'";
         }
 
-        $sql .= " Order by nama_murid ASC";
-        return DB::select($sql);
+        $sql.= " Order by nama_murid ASC";
+
+        $data = Query::pagination($sql,$request->input('page'));
+        return $data;
     }
 
     protected static function getById($id)

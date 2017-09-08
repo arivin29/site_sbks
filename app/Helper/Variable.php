@@ -19,7 +19,7 @@ class Variable
     public static function kelas()
     {
 
-        return [1,2,3];
+        return [10,11,12];
 
     }
 
@@ -32,7 +32,7 @@ class Variable
     public static function paralel()
     {
 
-        return ['A','B','C','D'];
+        return ['A','B','C','D','EX 1','EX 2'];
 
     }
 

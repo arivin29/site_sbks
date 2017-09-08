@@ -19,7 +19,7 @@ class Akses
     public static function getGuru()
     {
 
-        return (Object)array("id"=> 4, "nama"=>"Desi Handayani");
+        return (Object)array("id_guru"=> 27, "nama"=>"Desi Handayani");
 
     }
 

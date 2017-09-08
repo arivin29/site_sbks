@@ -64,11 +64,11 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'host' => env('DB_HOST', '128.199.139.248'),
+            'host' => env('DB_HOST', 'beon.devetek.com'),
             'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'db_sekolah'),
-            'username' => env('DB_USERNAME', 'postgres'),
-            'password' => env('DB_PASSWORD', 'pass'),
+            'username' => env('DB_USERNAME', 'umum'),
+            'password' => env('DB_PASSWORD', 'Pantek123'),
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',

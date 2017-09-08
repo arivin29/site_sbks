@@ -96,26 +96,32 @@ class Guru extends Model
 
   protected static function getAll($request)
   {
-      $sql= " Select * from t_guru WHERE id_guru > 0 ";
+      $sql= " Select a.*,
+                  b.email as email_login
+                from t_guru a,
+                  users b
+                WHERE a.id_guru=b.id_induk
+                  and  a.id_guru > 0
+                and b.tipe='guru' ";
 
 
       $param = $request->input();
       if(isset($param['nip']))
       {
-          $sql.=" and nip like '%".$param['nip']."%'";
+          $sql.=" and a.nip like '%".$param['nip']."%'";
       }
 
       if(isset($param['nama_guru']))
       {
-          $sql.=" and nama_guru like '%".$param['nama_guru']."%'";
+          $sql.=" and a.nama_guru like '%".$param['nama_guru']."%'";
       }
 
       if(isset($param['status_guru']))
       {
-          $sql.=" and status_guru = '".$param['status_guru']."'";
+          $sql.=" and a.status_guru = '".$param['status_guru']."'";
       }
 
-      $sql.=" Order by nama_guru ASC";
+      $sql.=" Order by a.nama_guru ASC";
       return DB::select($sql);
 
   }

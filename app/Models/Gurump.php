@@ -38,7 +38,7 @@ class Gurump extends Model
                   WHERE a.id_mata_pelajaran=b.id_mata_pelajaran
                     and a.id_jurusan=c.id_jurusan
                     and a.tahun_ajar='".Variable::getTahunAjar()."'
-                    --and a.id_guru=".Akses::getGuru()->id."
+                    --and a.id_guru=".Akses::getGuru()->id_guru."
                      order by b.mata_pelajaran,a.kelas ASC
             ";
       $data =  DB::select($sql);
@@ -64,7 +64,7 @@ class Gurump extends Model
                   WHERE a.id_mata_pelajaran=b.id_mata_pelajaran
                     and a.id_jurusan=c.id_jurusan
                     and a.tahun_ajar='".Variable::getTahunAjar()."'
-                    --and a.id_guru=".Akses::getGuru()->id."
+                    --and a.id_guru=".Akses::getGuru()->id_guru."
                     and a.id_guru_mp=$id
             ";
         $data =  DB::select($sql)[0];
