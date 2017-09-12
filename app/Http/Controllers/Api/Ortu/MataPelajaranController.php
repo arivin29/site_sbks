@@ -41,7 +41,6 @@ class MataPelajaranController extends Controller {
         $data =  DB::select($sql);
         return $data;
 
-
     }
 
 

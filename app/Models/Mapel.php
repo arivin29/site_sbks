@@ -48,7 +48,7 @@ class Mapel extends Model
       $data = Mapel::find($id);
       $data->mata_pelajaran = $request->input('mata_pelajaran');
       $data->id_jurusan = $request->input('id_jurusan');
-      $data->id_kelas = $request->input('id_kelas');
+      $data->kelas = $request->input('kelas');
       $data->status_mata_pelajaran = $request->input('status_mata_pelajaran');
         
       if($data->update())
