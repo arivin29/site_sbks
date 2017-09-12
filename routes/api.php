@@ -76,6 +76,12 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Murid', 'prefix' => 'v1
 
 });
 
+//Ortu
+Route::group(['middleware' => ['api'], 'namespace'=>'Api\Ortu', 'prefix' => 'v1/ortu'], function () {
+    Route::resource('/nilai', 'Nilai_Cont');
+    Route::resource('/mata_pelajaran', 'MataPelajaranController');
+});
+
 //Absen
 Route::group(['middleware' => ['api'], 'namespace'=>'Api\Absen', 'prefix' => 'v1/absen'], function () {
 

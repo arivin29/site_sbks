@@ -53,9 +53,11 @@ class Query
 
     public static function getUser()
     {
+
+        //dd(JWTAuth::toUser(JWTAuth::getToken()));
         return JWTAuth::toUser(JWTAuth::getToken());
 
-        return  (object)array("id"=> 1, "name"=>"Mumahammad Arifin");
+        return  (object)array("id"=> 1,"id_induk"=> 35, "name"=>"Mumahammad Arifin");
     }
 
 

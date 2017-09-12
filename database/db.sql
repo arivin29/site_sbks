@@ -4,3 +4,4 @@ INSERT INTO users
       nama_guru, nip || '@edutech.com','$2y$10$HD1UQmTr7AOTPGGhJ4pZZeWoSaCKwI0y3LyfAPXKCFM0KISsiEtP.','guru',1
 FROM t_guru
 WHERE nama_guru is NOT NULL;
+
