@@ -74,8 +74,10 @@ class Gurump extends Model
   protected static function getByguru($request)
   {
       $sql = "SELECT
-                  *              
-                
+                  a.*,
+                  b.mata_pelajaran,
+                  c.jurusan
+                                  
                 FROM t_guru_mp a,
                   m_mata_pelajaran b,
                   m_jurusan c
@@ -140,6 +142,7 @@ class Gurump extends Model
                 and kelas = '".$request->input('kelas')."' 
                 and kelas_paralel = '".$request->input('kelas_paralel')."'
                 and id_jurusan = '".$request->input('id_jurusan')."'
+                and tahun_ajar = '". Variable::getTahunAjar()."'
               ";
       $cek = DB::select($sql);
       if(count($cek) > 0)
@@ -158,6 +161,7 @@ class Gurump extends Model
       $data->jam_ngajar = $request->input('jam_ngajar');
       $data->kelas = $request->input('kelas');
       $data->kelas_paralel = $request->input('kelas_paralel');
+      $data->tahun_ajar = Variable::getTahunAjar();
 
       $data->save();
       return $data;
@@ -170,9 +174,9 @@ class Gurump extends Model
       $data->id_mata_pelajaran = $request->input('id_mata_pelajaran');
       $data->id_guru = $request->input('id_guru');
       $data->jam_ngajar = $request->input('jam_ngajar');
-      $data->id_kelas = $request->input('id_kelas');
-        
-        
+      $data->kelas = $request->input('kelas');
+      $data->kelas_paralel = $request->input('kelas_paralel');
+
       if($data->update())
       {
           return true;

@@ -38,6 +38,7 @@ Route::group(['middleware' => ['web'],'namespace'=>'Api\Acl', 'prefix' => 'v1/ac
 
     Route::resource('users','Users_cont');
     Route::resource('akses','Akses_cont');
+    Route::resource('akses_android','Akses_android_cont');
 
 });
 

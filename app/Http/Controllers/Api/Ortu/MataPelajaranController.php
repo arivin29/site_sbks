@@ -22,10 +22,12 @@ class MataPelajaranController extends Controller {
     public function index()
     {
         $sql = "SELECT
-          a.id_murid_kelas,
-          d.mata_pelajaran,
-          a.smt,
-          c.id_guru_mp
+            a.id_murid_kelas,
+              d.mata_pelajaran,
+              a.smt,
+              c.id_guru_mp,
+              a.kelas_paralel,
+              a.kelas
         
         FROM t_murid_kelas a,
           (SELECT max(id_murid_kelas) id_murid_kelas from t_murid_kelas WHERE id_murid=".Query::getUser()->id_induk.") b,
