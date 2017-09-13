@@ -32,7 +32,7 @@ class Variable
     public static function paralel()
     {
 
-        return ['A','B','C','D','EX 1','EX 2'];
+        return ['A','B','C','D','E','F','G'];
 
     }
 
