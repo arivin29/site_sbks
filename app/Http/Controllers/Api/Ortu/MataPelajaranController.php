@@ -40,7 +40,7 @@ class MataPelajaranController extends Controller {
         and c.id_mata_pelajaran=d.id_mata_pelajaran
         and a.id_murid=".Query::getUser()->id_induk."
         and c.tahun_ajar='".Variable::getTahunAjar()."'";
-        $data =  DB::select($sql);
+        $data['mapel'] =  DB::select($sql);
         return $data;
 
     }

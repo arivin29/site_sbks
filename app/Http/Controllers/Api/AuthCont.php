@@ -6,6 +6,7 @@ use App\Models\TPemohon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use phpDocumentor\Reflection\Types\Object_;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Auth;
@@ -69,7 +70,9 @@ class AuthCont extends Controller
         $newToken = JWTAuth::refresh($token);
 
         // all good so return the token
-        return $newToken;
+        $token = (Object)[];
+        $token->token = $newToken;
+        return $token;
     }
 
     public function getAuthenticatedUser()

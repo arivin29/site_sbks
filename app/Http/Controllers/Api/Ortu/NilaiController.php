@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Ortu;
 
+use App\Helper\Query;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Nilai;
@@ -23,14 +24,15 @@ class NilaiController extends Controller {
                   a.nilai,
                   a.nilai_akhir,
                   a.batas_remedial,
-                  a.is_remedial
+                  a.is_remedial,
+                  a.tanggal_rekap
                 FROM t_nilai a,
                   m_jenis_nilai b
                 WHERE a.id_jenis_nilai=b.id_jenis_nilai
                   and a.id_guru_mp=".$request->input('id_guru_mp')."
-                and id_murid=".$request->input('id_murid')."
+                and id_murid=".Query::getUser()->id_induk."
                 ORDER BY a.id_nilai ASC";
-        $data =  DB::select($sql);
+        $data['nilais'] =  DB::select($sql);
         return $data;
 
     }

@@ -14,7 +14,7 @@ Route::group(['middleware' => ['api'],'prefix' => 'v1'], function () {
     Route::get('dam_user', 'Api\AuthCont@getRole');
     Route::post('login', 'Api\AuthCont@authenticate');
     Route::post('online/login', 'Api\AuthCont@authenticateOnline');
-    Route::post('refresh', 'Api\AuthCont@refresh');
+    Route::get('refresh', 'Api\AuthCont@refresh');
     Route::get('user/me', 'Api\AuthCont@getAuthenticatedUser');
 
 });
@@ -32,6 +32,8 @@ Route::group(['middleware' => ['jwt.auth'],'prefix' => 'v2'], function () {
 Route::group(['middleware' => ['web'],'namespace'=>'Api\Umum', 'prefix' => 'v1/umum'], function () {
 
     Route::resource('kalender','Kalender_Cont');
+    Route::resource('extra','Extra_Cont');
+    Route::resource('informasi','Informasi');
 
 });
 Route::group(['middleware' => ['web'],'namespace'=>'Api\Acl', 'prefix' => 'v1/acl'], function () {
@@ -69,6 +71,7 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Guru', 'prefix' => 'v1/
 	Route::resource('/nilai', 'Nilai_Cont');
 	Route::resource('/absensi', 'Absensi_cont');
 	Route::resource('/absensi_detail', 'Absensi_detail_cont');
+	Route::resource('/moral', 'Moral_cont');
 
 });
 
@@ -79,8 +82,9 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Murid', 'prefix' => 'v1
 
 //Ortu
 Route::group(['middleware' => ['api'], 'namespace'=>'Api\Ortu', 'prefix' => 'v1/ortu'], function () {
-    Route::resource('/nilai', 'Nilai_Cont');
+    Route::resource('/nilai', 'NilaiController');
     Route::resource('/mata_pelajaran', 'MataPelajaranController');
+    Route::resource('/murid', 'MuridController');
 });
 
 //Absen

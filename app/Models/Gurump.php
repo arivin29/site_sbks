@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 use App\Helper\Akses;
+use App\Helper\Query;
 use App\Helper\Variable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -38,7 +39,7 @@ class Gurump extends Model
                   WHERE a.id_mata_pelajaran=b.id_mata_pelajaran
                     and a.id_jurusan=c.id_jurusan
                     and a.tahun_ajar='".Variable::getTahunAjar()."'
-                    --and a.id_guru=".Akses::getGuru()->id_guru."
+                    and a.id_guru=".Query::getUser()->id_induk."
                      order by b.mata_pelajaran,a.kelas ASC
             ";
       $data =  DB::select($sql);
