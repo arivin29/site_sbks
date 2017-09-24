@@ -122,13 +122,10 @@ class Murid extends Model
                   a.*,
                   ibu.pekerjaan as pekerjaan_ibu,
                   bapak.pekerjaan as pekerjaan_bapak
-                FROM t_murid a,
-                m_pekerjaan bapak,
-                m_pekerjaan ibu
-                
-                WHERE a.id_pekerjaan_ayah=bapak.id_pekerjaan
-                and a.id_pekerjaan_ibu=ibu.id_pekerjaan
-                and a.id_murid=".$id;
+                FROM t_murid a 
+                left join m_pekerjaan bapak on a.id_pekerjaan_ayah=bapak.id_pekerjaan
+                LEFT join m_pekerjaan ibu on a.id_pekerjaan_ibu=ibu.id_pekerjaan 
+                WHERE   a.id_murid=".$id;
 
         return DB::select($sql)[0];
     }
