@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api\Murid;
 
 use App\Helper\Query;
+use App\Helper\Variable;
 use App\Http\Controllers\Controller;
+use App\Models\Jurusan;
+use App\Models\Muridkelas;
 use Illuminate\Http\Request;
 use App\Models\Murid;
 use App\Models\Nilai;
@@ -13,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use select;
 
-class MuridController extends Controller {
+class KelasController extends Controller {
     /**
      * Create a new auth instance.
      *
@@ -21,11 +24,7 @@ class MuridController extends Controller {
      */
     public function index(Request $request)
     {
-        $sql=" SELECT *
-                FROM t_murid a
-                
-                WHERE a.id_murid = ".Query::getUser()->id_induk;
-        $data['data'] = DB::select($sql)[0];
+        $data['kelas'] = Muridkelas::getByMurid(Query::getUser()->id_induk);
         return $data;
     }
 

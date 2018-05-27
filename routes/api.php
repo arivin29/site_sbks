@@ -73,10 +73,20 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Guru', 'prefix' => 'v1/
 	Route::resource('/absensi_detail', 'Absensi_detail_cont');
 	Route::resource('/moral', 'Moral_cont');
 
+
+	Route::resource('/soal', 'Elearning\Soal_cont');
+	Route::resource('/ujian', 'Elearning\Ujian_cont');
+	Route::resource('/ujian_soal', 'Elearning\Ujian_soal_cont');
+
 });
 
 //Murid
 Route::group(['middleware' => ['api'], 'namespace'=>'Api\Murid', 'prefix' => 'v1/murid'], function () {
+
+    Route::resource('/murid', 'MuridController');
+    Route::resource('/kelas', 'KelasController');
+    Route::resource('/ujian', 'UjianController');
+    Route::resource('/ujian-jawaban', 'UjianJawabanController');
 
 });
 
@@ -85,6 +95,7 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Ortu', 'prefix' => 'v1/
     Route::resource('/nilai', 'NilaiController');
     Route::resource('/mata_pelajaran', 'MataPelajaranController');
     Route::resource('/murid', 'MuridController');
+    Route::resource('/absensi', 'Absensi_cont');
 });
 
 //Absen
@@ -107,5 +118,6 @@ Route::group(['middleware' => ['api'], 'namespace'=>'Api\Admin', 'prefix' => 'v1
 	Route::resource('/murid', 'MuridController');
 	Route::resource('/gurump', 'GurumpController');
 	Route::resource('/guru', 'GuruController');	
+	Route::resource('/absen', 'Absen_cont');
 
 });

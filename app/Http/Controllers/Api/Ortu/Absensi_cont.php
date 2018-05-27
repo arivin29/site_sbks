@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api\Guru;
+namespace App\Http\Controllers\Api\Ortu;
 
+use App\Helper\Query;
 use App\Http\Controllers\Controller;
 use App\Models\Absen;
 use App\Models\AbsenKelas;
 use App\Models\Gurump;
 use App\Models\Jenisnilai;
+use App\Models\Murid;
 use App\Models\Nilai;
 use Illuminate\Http\Request;
 use App\Models\Isikelas;
@@ -17,51 +19,6 @@ use DB;
 
 class  Absensi_cont extends Controller
 {
-    /**
-     * Create a new auth instance.
-     *
-     * @return void
-     */
-    public function index(Request $request)
-    {
-        if($request->input('rekap'))
-        {
-            $id = $request->input('id_guru_mp');
-            $get_murid = Gurump::getMuridByIdGuruMp($id);
-
-            $murids = [];
-            $total = 0;
-            foreach ($get_murid as $x) {
-
-                $get_nilai = AbsenKelas::getByIdGuruMp($x->id_guru_mp,$x->id_murid);
-                $absens = [];
-                foreach ($get_nilai as $y)
-                {
-                    $absens[] = $y;
-                }
-                $total = count($absens);
-                $x->absen = $absens;
-                $murids[] = $x;
-
-            }
-            $data['total'] = $total;
-            $data['absensis'] = $murids;
-        }
-        else
-        {
-            $id = $request->input('id_guru_mp');
-            $data['absensis'] = AbsenKelas::getByIdGuruMp($id);
-
-        }
-
-        return $data;
-    }
-
-    public function create(Request $request)
-    {
-        $data = AbsenKelas::preeAdd($request);
-        return $data;
-    }
 
 
     /**
@@ -70,54 +27,31 @@ class  Absensi_cont extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function index()
     {
+        $data = Murid::find(Query::getUser()->id_induk);
 
+        $sql= " SELECT
+                  b.*,
+                  a.db_date,
+                  a.day_name
+                FROM time_dimension a
+                LEFT JOIN (SELECT
+                min(scan_date) absen,
+                count(pin) total,
+                date_format(scan_date,\"%Y-%m-%d\") tgl
+                FROM att_log
+                WHERE pin= '".str_replace('.','',$data->nis)."'
+                GROUP BY day(scan_date), month(scan_date),year(scan_date)
+                LIMIT 50
+                ) b on a.db_date=date(tgl)
+                WHERE  date(a.db_date) between date(DATE_ADD(NOW(),INTERVAL -1 MONTH)) and DATE(NOW())
+                order by a.db_date DESC
+                limit 50";
+
+        $data->ortu_absen = DB::connection('mysql')->select($sql);
+        return $data;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
 
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        if (AbsenKelas::saveAbsen($request, $id)) {
-            return response()->json(['status' => 'false', 'pesan' => 'Berhasil ubah data!'], 200);
-        }
-
-        return response()->json(['status' => 'false', 'pesan' => 'Gagal ubah data!'], 400);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $data = Isikelas::find($id);
-
-        $success = $data->delete();
-
-        if (!$success) {
-            return Response()->json(['status' => 'false', 'pesan' => 'Gagal hapus data!'], 400);
-        }
-
-        return Response()->json(['status' => 'true', 'pesan' => 'Berhasil hapus data!'], 200);
-    }
 }

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use phpDocumentor\Reflection\Types\Object_;
 
 class Akses_android_cont extends Controller
@@ -21,7 +22,22 @@ class Akses_android_cont extends Controller
      */
     public function index(Request $request)
     {
-        return Query::getUser();
+        $data = Query::getUser();
+        $data->pwd = '';
+        return $data;
+    }
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request)
+    {
+        //update password android
+        return $request;
     }
 
 //    public function index(Request $request)
@@ -106,10 +122,7 @@ class Akses_android_cont extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
 
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -119,10 +132,11 @@ class Akses_android_cont extends Controller
      */
     public function store(Request $request)
     {
-        $data = M_Ata::tambah($request);
+        $data = User::find($request->input('id'));
+        $data->password = Hash::make($request->input('pwd'));
         if($data->save())
         {
-            return response()->json(['status'=>'ok','data'=>$data ],200);
+            return response()->json($data,200);
         }
         return response()->json(['status'=>'gagal simpan, data tidak valid'],404);
     }
